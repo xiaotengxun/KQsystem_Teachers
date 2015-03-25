@@ -1,0 +1,127 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:gravity="center_horizontal" >
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal" >
+
+        <TextView
+            android:id="@+id/kq_extra_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/home_kq_lookback"
+            android:textSize="30sp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal" >
+
+        <RelativeLayout
+            android:id="@+id/kq_extra_rel1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="80dp" >
+
+            <TextView
+                android:id="@+id/kq_extra_course_lable"
+                android:layout_width="70dp"
+                android:layout_height="wrap_content"
+                android:paddingTop="10dp"
+                android:text="@string/tea_kq_extra_course"
+                android:textSize="20sp" />
+
+            <Spinner
+                android:id="@+id/kq_extra_course"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/kq_extra_course_lable" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/kq_extra_rel2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/kq_extra_rel1"
+            android:layout_marginTop="20dp" >
+
+            <TextView
+                android:id="@+id/kq_extra_class_lable"
+                android:layout_width="70dp"
+                android:layout_height="wrap_content"
+                android:paddingTop="10dp"
+                android:text="@string/tea_kq_extra_class"
+                android:textSize="20sp" />
+
+            <Spinner
+                android:id="@+id/kq_extra_class"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/kq_extra_class_lable" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/kq_extra_rel3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/kq_extra_rel2"
+            android:layout_marginTop="20dp" >
+
+            <TextView
+                android:id="@+id/kq_extra_week_lable"
+                android:layout_width="70dp"
+                android:layout_height="wrap_content"
+                android:paddingTop="10dp"
+                android:text="@string/tea_kq_extra_week"
+                android:textSize="20sp" />
+
+            <Spinner
+                android:id="@+id/kq_extra_week"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/kq_extra_week_lable" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/kq_extra_rel4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/kq_extra_rel3"
+            android:layout_marginTop="20dp" >
+
+            <TextView
+                android:id="@+id/kq_extra_classtime_lable"
+                android:layout_width="70dp"
+                android:layout_height="wrap_content"
+                android:paddingTop="10dp"
+                android:text="@string/tea_kq_extra_classtime"
+                android:textSize="20sp" />
+
+            <Spinner
+                android:id="@+id/kq_extra_classtime"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/kq_extra_classtime_lable" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="30dp"
+        android:gravity="center_horizontal" >
+
+        <Button
+            android:id="@+id/kq_extra_sure"
+            android:text="@string/btn_sure"
+            android:textSize="30sp"
+            android:layout_width="150dp"
+            android:layout_height="80dp" />
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -1,0 +1,28 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:gravity="center_horizontal|center_vertical" >
+
+    <RadioGroup
+        android:id="@+id/kq_order_mode_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <RadioButton
+            android:id="@+id/kq_order_mode_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="@string/tea_kq_order_mode_list"
+            android:textColor="#ffffff" />
+
+        <RadioButton
+            android:id="@+id/kq_order_mode_pic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tea_kq_order_mode_pic"
+            android:textColor="#ffffff" />
+    </RadioGroup>
+
+</RelativeLayout>
