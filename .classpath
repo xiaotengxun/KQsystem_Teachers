@@ -5,6 +5,7 @@
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
 	<classpathentry kind="lib" path="libs/asmack.jar"/>
 	<classpathentry kind="lib" path="libs/ksoap2-android-assembly-2.3-jar-with-dependencies.jar"/>
+	<classpathentry kind="lib" path="D:/resource/jar/android-suppor-jar/android-support-v4.jar"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="gen"/>
 	<classpathentry kind="output" path="bin/classes"/>

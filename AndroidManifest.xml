@@ -52,7 +52,6 @@
                 <action android:name="NET_SUBMIT_KQ" />
             </intent-filter>
         </receiver>
-
         <service android:name="edu.sdjzu.service.NetService" >
         </service>
     </application>

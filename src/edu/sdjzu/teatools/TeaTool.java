@@ -46,7 +46,7 @@ public class TeaTool {
 					} catch (Error ex) {
 						sp.edit().putBoolean(TeacherAttr.isFirstLogin, true);
 					}
-				} else {// 更新数据操作
+				} else {// 非第一次登陆，更新数据操作
 					try {
 						teaWebTool.secondLogin(username);
 						isSuccess = true;
