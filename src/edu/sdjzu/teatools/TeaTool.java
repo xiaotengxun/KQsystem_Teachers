@@ -33,9 +33,16 @@ public class TeaTool {
 		boolean isSuccess = false;
 		InternetStatus is = new InternetStatus(context);
 		boolean isF = sp.getBoolean(TeacherAttr.isFirstLogin, true);
+		String lastUserName=sp.getString(TeacherAttr.loginUserName, null);
+		boolean isCacheClear=false;
+		TeaLoginTool teaWebTool = new TeaLoginTool(context);
+		if(null != lastUserName && !lastUserName.endsWith(username)){
+			isCacheClear=true;
+			teaWebTool.clearCache();
+			isF=false;
+		}
 		if (is.isNetworkConnected()) {
 			if (WebLoginSuccess(username, password)) {
-				TeaLoginTool teaWebTool = new TeaLoginTool(context);
 				if (isF) {// 第一次获得所有数据操作
 					try {
 						teaWebTool.firstLogin(username);

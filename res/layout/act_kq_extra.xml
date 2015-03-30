@@ -38,7 +38,7 @@
             <Spinner
                 android:id="@+id/kq_extra_course"
                 android:layout_width="150dp"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/kq_choci_spinner_height"
                 android:layout_toRightOf="@+id/kq_extra_course_lable" />
         </RelativeLayout>
 
@@ -60,7 +60,7 @@
             <Spinner
                 android:id="@+id/kq_extra_class"
                 android:layout_width="150dp"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/kq_choci_spinner_height"
                 android:layout_toRightOf="@+id/kq_extra_class_lable" />
         </RelativeLayout>
 
@@ -82,7 +82,7 @@
             <Spinner
                 android:id="@+id/kq_extra_week"
                 android:layout_width="150dp"
-                android:layout_height="wrap_content"
+                 android:layout_height="@dimen/kq_choci_spinner_height"
                 android:layout_toRightOf="@+id/kq_extra_week_lable" />
         </RelativeLayout>
 
@@ -104,7 +104,7 @@
             <Spinner
                 android:id="@+id/kq_extra_classtime"
                 android:layout_width="150dp"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/kq_choci_spinner_height"
                 android:layout_toRightOf="@+id/kq_extra_classtime_lable" />
         </RelativeLayout>
     </RelativeLayout>

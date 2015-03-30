@@ -2,6 +2,7 @@ package edu.sdjzu.teatools;
 
 import java.io.IOException;
 
+import edu.sdjzu.localtool.LocalSqlTool;
 import android.accounts.NetworkErrorException;
 import android.content.Context;
 import android.util.Log;
@@ -30,10 +31,18 @@ public class TeaLoginTool {
 		webTool.getKQTBbyTno(tno);
 		webTool.getStuPicAllByTno(tno);
 	}
+	/**
+	 * 其它用户登录时清除之前用户的所有信息
+	 */
+	public void clearCache(){
+		LocalSqlTool sqlLocal=new LocalSqlTool(context);
+		sqlLocal.clearCache();
+	}
 
 	public void secondLogin(String tno) {
 		webTool.getKQTBbyTno(tno);
 		webTool.getAllJDTBbyTno(tno);
+		webTool.QuerTeachTaskByTno(tno);
 	}
 	/**
 	 * 向服务器提交考勤结果，自动到本地数据库里查找未提交的考勤结果

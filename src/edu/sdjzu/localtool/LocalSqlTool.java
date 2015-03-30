@@ -125,14 +125,25 @@ public class LocalSqlTool {
 	 * 
 	 * @param t
 	 */
-	public void insertTeachTaskByTaskNo(TeachTask t) {
+	public void insertTeachTaskByTaskNo(List<TeachTask> tList) {
 		db = DatabaseManager.getInstance(context);
 		String sql = TeacherAttrSql.SQL_DELETE_FROM_TEACH_TASK;
 		db.execSQL(sql);
-		sql = TeacherAttrSql.SQL_INSERT_TO_TEACH_TASK;
-		String[] arg = { String.valueOf(t.getTaskNo()), t.getCourseNo(), t.getCourseName(), t.getTeaName(),
-				t.getTaskClass(), t.getCourseType(), t.getTaskWeek(), t.getTaskTerms() };
-		db.execSQL(sql, arg);
+		db.beginTransaction();
+		try {
+			for (int i = 0; i < tList.size(); i++) {
+				TeachTask t = tList.get(i);
+				sql = TeacherAttrSql.SQL_INSERT_TO_TEACH_TASK;
+				String[] arg = { String.valueOf(t.getTaskNo()), t.getCourseNo(), t.getCourseName(), t.getTeaName(),
+						t.getTaskClass(), t.getCourseType(), t.getTaskWeek(), t.getTaskTerms() };
+				db.execSQL(sql, arg);
+			}
+			db.setTransactionSuccessful();
+			db.endTransaction();
+		} catch (Exception e) {
+		} finally {
+
+		}
 	}
 
 	/**
@@ -857,5 +868,28 @@ public class LocalSqlTool {
 		return listKQ;
 
 	}
+	/**
+	 * 其它用户登录时清除之前用户的所有信息
+	 */
+	public void clearCache(){
+		db = DatabaseManager.getInstance(context);
+		String sql="delete from UserInf";
+		db.execSQL(sql);
+		sql="delete from Teachers";
+		db.execSQL(sql);
+		sql="delete from TeachProgress";
+		db.execSQL(sql);
+		sql="delete from TeachTask";
+		db.execSQL(sql);
+		sql="delete from TeachLocalProgress";
+		db.execSQL(sql);
+		sql="delete from KQresult";
+		db.execSQL(sql);
+		sql="delete from KQresultLocal";
+		db.execSQL(sql);
+		sql="delete from Students";
+		db.execSQL(sql);
+	}
+	
 
 }

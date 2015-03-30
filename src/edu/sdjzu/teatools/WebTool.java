@@ -316,10 +316,7 @@ public class WebTool {
 		} catch (SoapFault e) {
 			e.printStackTrace();
 		}
-		for (TeachTask teachTask : tlist) {
-
-			localSqlTool.insertTeachTaskByTaskNo(teachTask);
-		}
+		localSqlTool.insertTeachTaskByTaskNo(tlist);
 		return tlist;
 	}
 

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string name="back_tip1">再按一次推出!</string>
     <string name="btn_delete">删除</string>
     <string name="btn_ignore">跳过</string>
     <string name="exit_tip">您确定要退出吗？</string>

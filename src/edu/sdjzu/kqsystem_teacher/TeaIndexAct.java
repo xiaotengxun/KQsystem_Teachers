@@ -6,11 +6,15 @@ import java.util.List;
 import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.DisplayMetrics;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.ViewGroup.LayoutParams;
 import android.view.animation.LinearInterpolator;
@@ -18,6 +22,7 @@ import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 
 import com.example.kqsystem_teachers.R;
@@ -35,7 +40,7 @@ public class TeaIndexAct extends FragmentActivity {
 	public int jno = -1;
 	public int rno = -1;
 	private String userName = "";
-	protected static float currentIndicatorLeft = 0;
+	protected  float currentIndicatorLeft = 0;
 	private TabFragmentPagerAdapter framPageAdapter;
 	private ViewPager mViewPage;
 	private RadioGroup radioGroupTab;
@@ -45,6 +50,10 @@ public class TeaIndexAct extends FragmentActivity {
 	private String[] tabTitle = { "主页" };
 	private List<Fragment> listFrag = new ArrayList<Fragment>();
 	private Intent intent;
+	private Handler mHandler;
+	private final int BACK_SUCCESS=0;
+	private int backTimes=0;
+	private final int backOffTime=4000;//按两次返回键之间的时间间隔
 
 	@Override
 	protected void onCreate(Bundle arg0) {
@@ -105,6 +114,35 @@ public class TeaIndexAct extends FragmentActivity {
 		framPageAdapter = new TabFragmentPagerAdapter(getSupportFragmentManager(), userName, listFrag);
 		mViewPage.setAdapter(framPageAdapter);
 		mViewPage.setCurrentItem(0);
+		
+		mHandler=new Handler(){
+			@Override
+			public void handleMessage(Message msg) {
+				super.handleMessage(msg);
+				switch(msg.what){
+				case BACK_SUCCESS:
+					backTimes=0;
+					break;
+				}
+			}
+		};
+		
+	}
+
+	
+	@Override
+	public boolean onKeyUp(int keyCode, KeyEvent event) {
+		if(keyCode == event.KEYCODE_BACK){
+			Log.i("chen","keyback");
+			++backTimes;
+			if(backTimes==1){
+				Toast.makeText(TeaIndexAct.this, getString(R.string.back_tip1), 1000).show();
+				mHandler.sendEmptyMessageDelayed(BACK_SUCCESS, backOffTime);
+			}else{
+				finish();
+			}
+		}
+		return true;
 	}
 
 	private void setListener() {
