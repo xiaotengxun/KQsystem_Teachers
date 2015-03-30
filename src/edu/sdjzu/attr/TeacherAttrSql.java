@@ -37,7 +37,7 @@ public class TeacherAttrSql {// UserInf
 
 	public static final String SQL_SELECT_FROM_TEACHERS_FOR_NAME = "select * from Teachers where Tno=?";// 根据老师编号获得老师信息
 	public static final String SQL_SELECT_FROM_TEACHPROGRESS_ALL = "select * from TeachProgress";// 获得所有进度表信息
-	public static final String SQL_SELECT_FROM_TEACHPROGRESS_ALL_COURSE = "select distinct Cname from TeachProgress";// 获得进度表里的所有课程名称信息
+	public static final String SQL_SELECT_FROM_TEACHPROGRESS_ALL_COURSE = "select distinct Cname from TeachTask";// 获得进度表里的所有课程名称信息
 	public static final String SQL_SELECT_FROM_TEACHPROGRESS_ALL_WEEK = "select distinct Jweek from TeachProgress";// 获得进度表里的所有周
 	public static final String SQL_SELECT_FROM_TEACHPROGRESS_ALL_CLASSTIME = "select distinct Jtime from TeachProgress";// 获得进度表里的所有上课节次信息
 	public static final String SQL_SELECT_LOOK_KQ_PER_CLASS = "select S.Sname as sname,S.Sno as sno,S.Sclass as sclass,"
