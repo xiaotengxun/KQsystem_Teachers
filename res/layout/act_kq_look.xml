@@ -13,6 +13,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/home_kq_lookback"
+            android:visibility="gone"
             android:textSize="30sp" />
     </RelativeLayout>
 
@@ -20,7 +21,8 @@
         android:id="@+id/kq_look_rel2"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/kq_look_rel1" >
+        android:layout_marginTop="20dp"
+      >
 
         <RelativeLayout
             android:id="@+id/kq_look_rel2_1"

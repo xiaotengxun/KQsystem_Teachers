@@ -868,6 +868,24 @@ public class LocalSqlTool {
 		return listKQ;
 
 	}
+	
+	/**
+	 * 判断是否可以补录
+	 * @param jno
+	 * @return
+	 */
+	public boolean isAllowKQByJno(int jno){
+		db=DatabaseManager.getInstance(context);
+		String sql="select * from TeachLocalProgress where jno="+String.valueOf(jno);
+		Cursor cursor=db.Query(sql, null);
+		boolean isAllow=false;
+		if(cursor.getCount()>0){
+			isAllow=true;
+		}else{
+			isAllow=false;
+		}
+		return isAllow;
+	}
 	/**
 	 * 其它用户登录时清除之前用户的所有信息
 	 */
