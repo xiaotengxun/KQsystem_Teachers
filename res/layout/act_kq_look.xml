@@ -20,38 +20,67 @@
         android:id="@+id/kq_look_rel2"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/kq_look_rel1"
-        android:layout_marginTop="5dp" >
+        android:layout_below="@+id/kq_look_rel1" >
 
-        <TextView
-            android:id="@+id/kq_look_course"
+        <RelativeLayout
+            android:id="@+id/kq_look_rel2_1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:textSize="20sp" />
+            android:layout_alignParentLeft="true" >
 
-        <TextView
-            android:id="@+id/kq_look_week"
+            <TextView
+                android:id="@+id/kq_look_course"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text="数据结构B"
+                android:textSize="20sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:paddingLeft="25dp"
-            android:textSize="20sp" />
+            android:layout_toLeftOf="@+id/kq_look_rel2_3"
+            android:layout_toRightOf="@+id/kq_look_rel2_1"
+            android:gravity="center_horizontal" >
 
-        <TextView
-            android:id="@+id/kq_look_classtime"
+            <RelativeLayout
+                android:id="@+id/kq_look_rel2_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:id="@+id/kq_look_week"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:text="第1周"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/kq_look_classtime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_toRightOf="@+id/kq_look_week"
+                    android:text="10102"
+                    android:textSize="20sp" />
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/kq_look_rel2_3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="70dp"
-            android:textSize="20sp" />
-        <TextView
-            android:id="@+id/kq_look_class"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="15dp"
-            android:textSize="20sp" />
+            android:layout_marginRight="5dp" >
+            <TextView
+                android:id="@+id/kq_look_class"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="计科113"
+                android:textSize="20sp" />
+        </RelativeLayout>
     </RelativeLayout>
 
     <RelativeLayout

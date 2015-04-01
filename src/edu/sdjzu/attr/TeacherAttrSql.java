@@ -41,9 +41,9 @@ public class TeacherAttrSql {// UserInf
 	public static final String SQL_SELECT_FROM_TEACHPROGRESS_ALL_WEEK = "select distinct Jweek from TeachProgress";// 获得进度表里的所有周
 	public static final String SQL_SELECT_FROM_TEACHPROGRESS_ALL_CLASSTIME = "select distinct Jtime from TeachProgress";// 获得进度表里的所有上课节次信息
 	public static final String SQL_SELECT_LOOK_KQ_PER_CLASS = "select S.Sname as sname,S.Sno as sno,S.Sclass as sclass,"
-			+ "KQ.Kstate as state from TeachProgress as J,KQresult as KQ,Students as S where J.Cname=? and J.Jweek=?"
+			+ "KQ.Kstate as state from TeachProgress as J,KQresultLocal as KQ,Students as S where J.Cname=? and J.Jweek=?"
 			+ " and J.Jtime=? and S.Sclass=? and J.Jno=KQ.Jno and KQ.Sno=S.Sno";// 考勤特定班级查看
-	public static final String SQL_SELECT_LOOK_KQ_ALL_CLASS = "select S.Sname as sname,S.Sno as sno,S.Sclass as sclass,KQ.Kstate as state from TeachProgress as J,KQresult as KQ,Students as S where J.Cname=? and J.Jweek=?"
+	public static final String SQL_SELECT_LOOK_KQ_ALL_CLASS = "select S.Sname as sname,S.Sno as sno,S.Sclass as sclass,KQ.Kstate as state from TeachProgress as J,KQresultLocal as KQ,Students as S where J.Cname=? and J.Jweek=?"
 			+ " and J.Jtime=?  and J.Jno=KQ.Jno and KQ.Sno=S.Sno";// 考勤全部班级查看
 	public static final String SQL_SELECT_BULU_RNO_JNO = "select * from TeachProgress where Cname=? and "
 			+ "Jweek=? and Jtime=?";// 考勤补录查询进度号和任务号

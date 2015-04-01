@@ -82,9 +82,9 @@ public class KqOrderAdapter extends BaseAdapter {
 			vh = new ViewHolder();
 			vh.stuName = (TextView) convertView.findViewById(R.id.kq_stu_name);
 			vh.stuSno = (TextView) convertView.findViewById(R.id.kq_stu_sno);
-			vh.stuClass = (TextView) convertView.findViewById(R.id.kq_stu_class);
+			//vh.stuClass = (TextView) convertView.findViewById(R.id.kq_stu_class);
 			vh.stuDisAbsenceTimes = (TextView) convertView.findViewById(R.id.kq_stu_disabsent_times);
-			vh.stuClassState = (TextView) convertView.findViewById(R.id.kq_stu_class_state);
+//			vh.stuClassState = (TextView) convertView.findViewById(R.id.kq_stu_class_state);
 			vh.stuOrderState = (Button) convertView.findViewById(R.id.kq_stu_order_state);
 			vh.stuOrderState.setTag(vh);
 			convertView.setTag(vh);
@@ -100,19 +100,19 @@ public class KqOrderAdapter extends BaseAdapter {
 		vh.position = position;
 		vh.stuName.setText(hM.get(Constant.stuNameKey));
 		vh.stuSno.setText(hM.get(Constant.stuSnoKey));
-		vh.stuClass.setText(hM.get(Constant.stuClassKey));
+	//	vh.stuClass.setText(hM.get(Constant.stuClassKey));
 		vh.stuDisAbsenceTimes.setText(hM.get(Constant.stuDisabsenceCountsKey));
 		setOrderBtnOnClick(vh);
 		if (hM.get(Constant.stuClassOderStateKey).equals(stateNormal)) {
 			vh.stuOrderState.setText(stateInNormal);
 			vh.stuOrderState.setTextColor(Color.RED);
-			vh.stuClassState.setText(stateNormal);
-			vh.stuClassState.setTextColor(Color.BLACK);
+//			vh.stuClassState.setText(stateNormal);
+//			vh.stuClassState.setTextColor(Color.BLACK);
 		} else {
 			vh.stuOrderState.setText(stateNormal);
 			vh.stuOrderState.setTextColor(Color.BLACK);
-			vh.stuClassState.setText(stateInNormal);
-			vh.stuClassState.setTextColor(Color.RED);
+//			vh.stuClassState.setText(stateInNormal);
+//			vh.stuClassState.setTextColor(Color.RED);
 		}
 		return convertView;
 	}
@@ -127,16 +127,16 @@ public class KqOrderAdapter extends BaseAdapter {
 					++lateTimes;
 					vHolder.stuOrderState.setText(stateNormal);
 					vHolder.stuOrderState.setTextColor(Color.BLACK);
-					vHolder.stuClassState.setText(stateInNormal);
-					vHolder.stuClassState.setTextColor(Color.RED);
+//					vHolder.stuClassState.setText(stateInNormal);
+//					vHolder.stuClassState.setTextColor(Color.RED);
 					updateStuKq(vHolder.stuSno.getText().toString(), stateInNormal);
 
 				} else if (vHolder.stuOrderState.getText().equals(stateNormal)) {
 					--lateTimes;
 					vHolder.stuOrderState.setText(stateInNormal);
 					vHolder.stuOrderState.setTextColor(Color.RED);
-					vHolder.stuClassState.setText(stateNormal);
-					vHolder.stuClassState.setTextColor(Color.BLACK);
+//					vHolder.stuClassState.setText(stateNormal);
+//					vHolder.stuClassState.setTextColor(Color.BLACK);
 					updateStuKq(vHolder.stuSno.getText().toString(), stateNormal);
 				}
 				listHash.get(vHolder.position).put(Constant.stuDisabsenceCountsKey, String.valueOf(lateTimes));
@@ -224,8 +224,8 @@ public class KqOrderAdapter extends BaseAdapter {
 
 	public class ViewHolder {
 		int position;
-		TextView stuName, stuSno, stuClass;
-		TextView stuDisAbsenceTimes, stuClassState;
+		TextView stuName, stuSno;// stuClass;
+		TextView stuDisAbsenceTimes;// stuClassState;
 		Button stuOrderState;
 	};
 

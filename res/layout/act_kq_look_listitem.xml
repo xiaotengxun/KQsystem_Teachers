@@ -4,37 +4,62 @@
     android:paddingBottom="8dp"
     android:paddingTop="8dp" >
 
-    <TextView
-        android:id="@+id/bulu_stuname"
+    <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="5dp"
-        android:gravity="left"
-        android:textSize="20sp" />
-
-    <TextView
-        android:id="@+id/bulu_stuclass"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="50dp"
-        android:textSize="20sp" />
-
-    <TextView
-        android:id="@+id/bulu_stuState"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="3dp"
-        android:textColor="@color/color_red"
-        android:textSize="20sp" />
-
-    <TextView
-        android:id="@+id/bulu_stusno"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/rel_3"
         android:gravity="center_horizontal"
-        android:paddingLeft="-50dp"
-        android:textSize="20sp" />
+        android:layout_toRightOf="@+id/rel_2" >
+
+        <RelativeLayout
+            android:id="@+id/rel_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/bulu_stuname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="陈书万"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/bulu_stuclass"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_toRightOf="@+id/bulu_stuname"
+                android:text="计科113"
+                android:textSize="20sp" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rel_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+
+        <TextView
+            android:id="@+id/bulu_stusno"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2011111112"
+            android:textSize="20sp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rel_3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true" >
+
+        <TextView
+            android:id="@+id/bulu_stuState"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="缺勤"
+            android:textColor="@color/color_red"
+            android:textSize="20sp" />
+    </RelativeLayout>
 
 </RelativeLayout>
