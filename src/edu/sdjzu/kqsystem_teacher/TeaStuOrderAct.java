@@ -5,13 +5,15 @@ import java.util.HashMap;
 import java.util.List;
 
 import android.app.ActionBar;
-import android.app.ProgressDialog;
 import android.app.ActionBar.LayoutParams;
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
@@ -31,8 +33,6 @@ import android.widget.Toast;
 import com.example.kqsystem_teachers.R;
 
 import edu.sdjzu.attr.TeacherAttr;
-import edu.sdjzu.broadcast.NetErrorReceiver;
-import edu.sdjzu.broadcast.NetSubmitKQReceiver;
 import edu.sdjzu.fragment.TeaListStuKq;
 import edu.sdjzu.fragment.TeaPicStuKq;
 import edu.sdjzu.localtool.InternetStatus;
@@ -61,6 +61,8 @@ public class TeaStuOrderAct extends FragmentActivity {
 	private MyNetSubmitKQReceiver netSubmitKQReceiver = null;
 	private boolean isNormalKq = true;// 是否是正常考勤，而不是考勤查看或考勤补录，默认是正常考勤
 	private ProgressDialog progressDialog;// 考勤提交时的进度条
+	private Handler mHandler;
+	private final int PROGRESS_CANCEL = 0;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +71,6 @@ public class TeaStuOrderAct extends FragmentActivity {
 		currentJno = Integer.valueOf(getIntent().getStringExtra(TeacherAttr.jnoKey));
 		currentRno = Integer.valueOf(getIntent().getStringExtra(TeacherAttr.rnoKey));
 		currentClass = getIntent().getStringExtra(TeacherAttr.buluClassKey);
-		Log.i("chen", "currentJno and currentRno=" + currentJno + "      " + currentRno);
 		initStuInfo();
 		initView();
 		setListener();
@@ -84,6 +85,22 @@ public class TeaStuOrderAct extends FragmentActivity {
 		initActionBar();
 		registerReceiver();
 		initProgressDialog();
+
+		mHandler = new Handler() {
+			@Override
+			public void handleMessage(Message msg) {
+				super.handleMessage(msg);
+				switch (msg.what) {
+				case PROGRESS_CANCEL:
+					if (null != progressDialog) {
+						progressDialog.dismiss();
+						progressDialog = null;
+					}
+					break;
+				}
+			}
+		};
+
 	}
 
 	private void initProgressDialog() {
@@ -180,9 +197,10 @@ public class TeaStuOrderAct extends FragmentActivity {
 			this.finish();
 		} else if (item.getItemId() == R.id.kq_order_save) {
 			InternetStatus net = new InternetStatus(TeaStuOrderAct.this);
-			if (null != progressDialog) {
-				progressDialog.show();
+			if (null == progressDialog) {
+				initProgressDialog();
 			}
+			progressDialog.show();
 			new Thread() {
 				@Override
 				public void run() {
@@ -231,10 +249,7 @@ public class TeaStuOrderAct extends FragmentActivity {
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			int choice = intent.getIntExtra("toast", -1);
-			Log.i("chen", "choice=" + choice);
-			if (null != progressDialog) {
-				progressDialog.dismiss();
-			}
+			mHandler.sendEmptyMessage(PROGRESS_CANCEL);
 			if (choice == 0) {
 				Toast.makeText(context, context.getString(R.string.net_submit_kq_nokq), 2000).show();
 			} else if (choice == 1) {

@@ -37,7 +37,6 @@ public class TeaKqChoiceAct extends FragmentActivity implements OnLook {
 	private Handler mHandler;
 	private final int KQ_BULU = 0;
 	private final int KQ_LOOK = 1;
-	
 
 	@Override
 	protected void onCreate(Bundle arg0) {
@@ -76,9 +75,9 @@ public class TeaKqChoiceAct extends FragmentActivity implements OnLook {
 		choiceType = getIntent().getStringExtra(TeacherAttr.kqExtraChoice);
 		loginClass = new TeaTool(this);
 		listHash = new ArrayList<HashMap<String, String>>();
-		if(choiceType.equals(TeacherAttr.kqLookBackKey)){
+		if (choiceType.equals(TeacherAttr.kqLookBackKey)) {
 			updateActionBar(KQ_LOOK);
-		}else if(choiceType.equals(TeacherAttr.kqBuluKey)){
+		} else if (choiceType.equals(TeacherAttr.kqBuluKey)) {
 			updateActionBar(KQ_BULU);
 		}
 	}
@@ -125,14 +124,14 @@ public class TeaKqChoiceAct extends FragmentActivity implements OnLook {
 
 	private void goBuluFrag(String course, String week, String claTime, String cla) {
 		HashMap<String, String> hash = loginClass.getBuluJnoRno(course, week, claTime);
-		if(loginClass.isAllowKQByJno(Integer.valueOf(hash.get(TeacherAttr.jnoKey)))){
+		if (loginClass.isAllowKQByJno(Integer.valueOf(hash.get(TeacherAttr.jnoKey)))) {
 			Intent intent = new Intent();
 			intent.putExtra(TeacherAttr.jnoKey, hash.get(TeacherAttr.jnoKey));
 			intent.putExtra(TeacherAttr.rnoKey, hash.get(TeacherAttr.rnoKey));
 			intent.putExtra(TeacherAttr.buluClassKey, cla);
 			intent.setClass(TeaKqChoiceAct.this, TeaStuOrderAct.class);
 			startActivity(intent);
-		}else{
+		} else {
 			Toast.makeText(TeaKqChoiceAct.this, getString(R.string.KQ_bulu_not_allow_tip1), 2000).show();
 		}
 	}
