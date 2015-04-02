@@ -271,7 +271,14 @@ public class TeaTool {
 	public void deleteLocalProgress(List<Integer> listJno) {
 		new LocalSqlTool(context).deleteLocalProgress(listJno);
 	}
-
+	/**
+	 * 判断是否可以补录
+	 * @param jno
+	 * @return
+	 */
+	public boolean isAllowKQByJno(int jno){
+		return new LocalSqlTool(context).isAllowKQByJno(jno);
+	}
 	/**
 	 * 根据进度号提交本地由于某些原因未能提交的考勤
 	 * 
