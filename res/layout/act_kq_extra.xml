@@ -25,14 +25,14 @@
         <RelativeLayout
             android:id="@+id/kq_extra_rel1"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/kq_choci_spinner_height"
             android:layout_marginTop="50dp" >
 
             <TextView
                 android:id="@+id/kq_extra_course_lable"
                 android:layout_width="70dp"
-                android:layout_height="wrap_content"
-                android:paddingTop="10dp"
+                android:layout_height="fill_parent"
+                android:gravity="center_vertical"
                 android:text="@string/tea_kq_extra_course"
                 android:textSize="20sp" />
 
@@ -46,15 +46,15 @@
         <RelativeLayout
             android:id="@+id/kq_extra_rel2"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/kq_choci_spinner_height"
             android:layout_below="@+id/kq_extra_rel1"
             android:layout_marginTop="20dp" >
 
             <TextView
                 android:id="@+id/kq_extra_class_lable"
                 android:layout_width="70dp"
-                android:layout_height="wrap_content"
-                android:paddingTop="10dp"
+                android:layout_height="fill_parent"
+                android:gravity="center_vertical"
                 android:text="@string/tea_kq_extra_class"
                 android:textSize="20sp" />
 
@@ -68,15 +68,15 @@
         <RelativeLayout
             android:id="@+id/kq_extra_rel3"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/kq_choci_spinner_height"
             android:layout_below="@+id/kq_extra_rel2"
             android:layout_marginTop="20dp" >
 
             <TextView
                 android:id="@+id/kq_extra_week_lable"
                 android:layout_width="70dp"
-                android:layout_height="wrap_content"
-                android:paddingTop="10dp"
+                android:layout_height="fill_parent"
+                android:gravity="center_vertical"
                 android:text="@string/tea_kq_extra_week"
                 android:textSize="20sp" />
 
@@ -90,15 +90,15 @@
         <RelativeLayout
             android:id="@+id/kq_extra_rel4"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/kq_choci_spinner_height"
             android:layout_below="@+id/kq_extra_rel3"
             android:layout_marginTop="20dp" >
 
             <TextView
                 android:id="@+id/kq_extra_classtime_lable"
                 android:layout_width="70dp"
-                android:layout_height="wrap_content"
-                android:paddingTop="10dp"
+                android:layout_height="fill_parent"
+                android:gravity="center_vertical"
                 android:text="@string/tea_kq_extra_classtime"
                 android:textSize="20sp" />
 

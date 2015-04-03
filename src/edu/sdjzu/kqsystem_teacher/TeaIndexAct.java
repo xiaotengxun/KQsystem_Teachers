@@ -16,12 +16,16 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 
@@ -43,7 +47,7 @@ public class TeaIndexAct extends FragmentActivity {
 	protected  float currentIndicatorLeft = 0;
 	private TabFragmentPagerAdapter framPageAdapter;
 	private ViewPager mViewPage;
-	private RadioGroup radioGroupTab;
+	private LinearLayout radioGroupTab;
 	private ImageView tabIndictor;
 	private int tabIndictorWidth = 0;
 	private int tabIndictorCurrentLeft = 0;
@@ -54,6 +58,7 @@ public class TeaIndexAct extends FragmentActivity {
 	private final int BACK_SUCCESS=0;
 	private int backTimes=0;
 	private final int backOffTime=4000;//按两次返回键之间的时间间隔
+	private List<TextView> listTab = new ArrayList<TextView>();
 
 	@Override
 	protected void onCreate(Bundle arg0) {
@@ -66,14 +71,9 @@ public class TeaIndexAct extends FragmentActivity {
 		findView();
 		initView();
 		setListener();
-		initActionBar();
 		isClassTimeNow();
 	}
 
-	private void initActionBar() {
-		ActionBar actionBar = getActionBar();
-		actionBar.setTitle("");
-	}
 
 	private void isClassTimeNow() {
 		TeaTool lgClass = new TeaTool(this);
@@ -90,7 +90,7 @@ public class TeaIndexAct extends FragmentActivity {
 
 	private void findView() {
 		mViewPage = (ViewPager) findViewById(R.id.mViewPager);
-		radioGroupTab = (RadioGroup) findViewById(R.id.group_tab);
+		radioGroupTab = (LinearLayout) findViewById(R.id.group_tab);
 		tabIndictor = (ImageView) findViewById(R.id.tab_indictor);
 	}
 
@@ -103,11 +103,30 @@ public class TeaIndexAct extends FragmentActivity {
 		tabIndictor.setLayoutParams(cursor_Params);
 		LayoutInflater mInflater = LayoutInflater.from(this);
 		for (int i = 0; i < tabTitle.length; i++) {
-			RadioButton rb = (RadioButton) mInflater.inflate(R.layout.radiogroup_item, null);
+			TextView rb = (TextView) mInflater.inflate(R.layout.radiogroup_item, null);
 			rb.setId(i);
+			rb.setTag(i);
 			rb.setText(tabTitle[i]);
 			rb.setLayoutParams(new LayoutParams(tabIndictorWidth, LayoutParams.MATCH_PARENT));
+			rb.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					int index = (Integer) v.getTag();
+					TranslateAnimation animation = new TranslateAnimation(currentIndicatorLeft, v.getLeft(), 0f, 0f);
+					animation.setInterpolator(new LinearInterpolator());
+					animation.setDuration(100);
+					animation.setFillAfter(true);
+					// 执行位移动画
+					tabIndictor.startAnimation(animation);
+					mViewPage.setCurrentItem(index); // ViewPager 跟随一起 切换
+					// 记录当前 下标的距最左侧的 距离
+					currentIndicatorLeft = v.getLeft();
+
+				}
+			});
 			radioGroupTab.addView(rb);
+			listTab.add(rb);
 		}
 		listFrag.add(new TeaOption());
 		// listFrag.add(new TeaMessage());
@@ -149,9 +168,7 @@ public class TeaIndexAct extends FragmentActivity {
 		mViewPage.setOnPageChangeListener(new OnPageChangeListener() {
 			@Override
 			public void onPageSelected(int arg0) {
-				if (radioGroupTab.getChildCount() > arg0) {
-					((RadioButton) radioGroupTab.getChildAt(arg0)).performClick();
-				}
+				listTab.get(arg0).performClick();
 			}
 
 			@Override
@@ -167,26 +184,6 @@ public class TeaIndexAct extends FragmentActivity {
 			}
 		});
 
-		radioGroupTab.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-
-			@Override
-			public void onCheckedChanged(RadioGroup group, int checkedId) {
-				if (radioGroupTab.getChildAt(checkedId) != null) {
-
-					TranslateAnimation animation = new TranslateAnimation(currentIndicatorLeft,
-							((RadioButton) radioGroupTab.getChildAt(checkedId)).getLeft(), 0f, 0f);
-					animation.setInterpolator(new LinearInterpolator());
-					animation.setDuration(100);
-					animation.setFillAfter(true);
-					// 执行位移动画
-					tabIndictor.startAnimation(animation);
-					mViewPage.setCurrentItem(checkedId); // ViewPager 跟随一起 切换
-					// 记录当前 下标的距最左侧的 距离
-					currentIndicatorLeft = ((RadioButton) radioGroupTab.getChildAt(checkedId)).getLeft();
-				}
-
-			}
-		});
 	}
 
 }
