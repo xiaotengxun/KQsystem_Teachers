@@ -11,7 +11,8 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-<uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
@@ -34,14 +35,18 @@
         </activity>
         <activity
             android:name="edu.sdjzu.kqsystem_teacher.LoginAct"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
-        <activity android:name="edu.sdjzu.kqsystem_teacher.TeaIndexAct" >
+        <activity
+            android:name="edu.sdjzu.kqsystem_teacher.TeaIndexAct"
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity android:name="edu.sdjzu.kqsystem_teacher.TeaJDTBTipAct" >
         </activity>
         <activity android:name="edu.sdjzu.kqsystem_teacher.TeaStuOrderAct" >
         </activity>
+
         <receiver android:name="edu.sdjzu.broadcast.NetErrorReceiver" >
             <intent-filter>
                 <action android:name="NETWORK_ERROR" />
@@ -52,6 +57,7 @@
                 <action android:name="NET_SUBMIT_KQ" />
             </intent-filter>
         </receiver>
+
         <service android:name="edu.sdjzu.service.NetService" >
         </service>
     </application>
