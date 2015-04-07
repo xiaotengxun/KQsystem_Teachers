@@ -272,14 +272,6 @@ public class TeaTool {
 		new LocalSqlTool(context).deleteLocalProgress(listJno);
 	}
 	/**
-	 * 判断是否可以补录
-	 * @param jno
-	 * @return
-	 */
-	public boolean isAllowKQByJno(int jno){
-		return new LocalSqlTool(context).isAllowKQByJno(jno);
-	}
-	/**
 	 * 根据进度号提交本地由于某些原因未能提交的考勤
 	 * 
 	 * @param listJno
@@ -292,5 +284,15 @@ public class TeaTool {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	
+	/**
+	 * 根据进度号判断当前进度是否已经提交
+	 * @param jno
+	 * @return
+	 */
+	public boolean isJnoSubmit(int jno){
+		return new LocalSqlTool(context).isJnoSubmit(jno);
 	}
 }

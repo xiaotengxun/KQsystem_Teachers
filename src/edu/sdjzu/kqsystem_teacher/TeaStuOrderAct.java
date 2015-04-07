@@ -76,12 +76,13 @@ public class TeaStuOrderAct extends FragmentActivity {
 		setListener();
 		if (currentClass == null) {
 			Log.i("chen", "class null");
+			currentClass=getString(R.string.tea_class_all);
 			isNormalKq = true;
 		} else {
 			// 非正常考勤情况下根据班级获得相应的学生
 			isNormalKq = false;
-			listHash = loginClass.getStuListByClass(currentClass, currentJno, isNormalKq);
 		}
+		listHash = loginClass.getStuListByClass(currentClass, currentJno, isNormalKq);
 		initActionBar();
 		registerReceiver();
 		initProgressDialog();

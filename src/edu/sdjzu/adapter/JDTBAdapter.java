@@ -50,6 +50,9 @@ public class JDTBAdapter extends BaseAdapter {
 		mInflater = LayoutInflater.from(context);
 	}
 
+	public void setData(List<HashMap<String, String>> listM){
+		this.listMap=listM;
+	}
 	@Override
 	public int getCount() {
 		return listMap.size();

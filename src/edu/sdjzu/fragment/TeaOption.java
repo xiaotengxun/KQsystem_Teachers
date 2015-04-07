@@ -78,13 +78,17 @@ public class TeaOption extends Fragment {
 		if (jrno[0] != -1) {
 			int jno = jrno[0];
 			int rno = jrno[1];
-			Intent intent = new Intent();
-			intent.setClass(getActivity(), TeaStuOrderAct.class);
-			intent.putExtra(TeacherAttr.userKey, userName);
-			intent.putExtra(TeacherAttr.kqExtraChoice, TeacherAttr.kqOrderKey);
-			intent.putExtra(TeacherAttr.jnoKey, String.valueOf(jno));
-			intent.putExtra(TeacherAttr.rnoKey, String.valueOf(rno));
-			startActivity(intent);
+			if (!lgClass.isJnoSubmit(jno)) {
+				Intent intent = new Intent();
+				intent.setClass(getActivity(), TeaStuOrderAct.class);
+				intent.putExtra(TeacherAttr.userKey, userName);
+				intent.putExtra(TeacherAttr.kqExtraChoice, TeacherAttr.kqOrderKey);
+				intent.putExtra(TeacherAttr.jnoKey, String.valueOf(jno));
+				intent.putExtra(TeacherAttr.rnoKey, String.valueOf(rno));
+				startActivity(intent);
+			} else {
+				Toast.makeText(getActivity(), getString(R.string.kq_submit_tip1), 1000).show();
+			}
 		} else {
 			Toast.makeText(getActivity(), getString(R.string.forclass_tip), 2000).show();
 		}

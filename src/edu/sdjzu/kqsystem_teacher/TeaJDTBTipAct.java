@@ -43,45 +43,10 @@ public class TeaJDTBTipAct extends FragmentActivity implements JDTBDetailOnClick
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.act_jdtb);
 		JDTBAdapter.setJDTBDetailOnClick(this);
-		initActionBar();
 		initJdtb();
 		initFrag();
 	}
 
-	private void showDialog() {
-		dialog = new AlertDialog.Builder(this);
-		dialog.setPositiveButton(getString(R.string.btn_sure), new OnClickListener() {
-
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				dialog.dismiss();
-				TeaJDTBTipAct.this.finish();
-			}
-		});
-		dialog.setNegativeButton(getString(R.string.btn_cancel), new OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				dialog.dismiss();
-			}
-		});
-		dialog.setTitle(getString(R.string.exit_tip));
-		dialog.show();
-	}
-
-	private void initActionBar() {
-		ActionBar actionBar = getActionBar();
-		actionBar.setTitle("");
-	}
-
-	private void showBackKey() {
-		getActionBar().setHomeButtonEnabled(true);
-		getActionBar().setLogo(R.drawable.manager_kqresult_jump);
-	}
-
-	private void hideBackKey() {
-		getActionBar().setHomeButtonEnabled(false);
-		getActionBar().setLogo(R.drawable.ic_launcher);
-	}
 
 	private void initJdtb() {
 		loginClass = new TeaTool(this);
@@ -105,7 +70,6 @@ public class TeaJDTBTipAct extends FragmentActivity implements JDTBDetailOnClick
 	}
 
 	private void goJDTBDetail(int jno, String courseName, String courseWeek, String courseJtime) {
-		showBackKey();
 		FragmentTransaction transaction = fm.beginTransaction();
 		Bundle b = new Bundle();
 		b.putSerializable(TeacherAttr.jdtbKQStuKey, (Serializable) loginClass.getKQStuByJno(jno));
@@ -130,10 +94,9 @@ public class TeaJDTBTipAct extends FragmentActivity implements JDTBDetailOnClick
 
 	private void backKeyAction() {
 		if (fm.getBackStackEntryCount() > 0) {
-			hideBackKey();
 			fm.popBackStack();
 		} else {
-			showDialog();
+			
 		}
 	}
 

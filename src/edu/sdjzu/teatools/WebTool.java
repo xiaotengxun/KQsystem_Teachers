@@ -252,7 +252,7 @@ public class WebTool {
 					t.setInMan(s.getProperty("InMan").toString());
 					t.setInTime(s.getProperty("InTime").toString());
 					lisTP.add(t);
-					Log.i("chen", "getAllJDTBbyTno TeachProgress.prgress time=" + t.getEndTime());
+					Log.i("chen", "getAllJDTBbyTno TeachProgress.prgress time=" + t.getEndTime()+"  prgress.Cname="+t.getCourseName()+"   prgress.Jno="+t.getProgressNo());
 				}
 			}
 		} catch (SoapFault e) {
@@ -543,18 +543,17 @@ public class WebTool {
 			ht.call(SOAP_ACTION, envelope);
 			Log.i("chen", "ht.call(SOAP_ACTION, envelope)");
 			UpdateProgress(jno);
-			localSqlTool.upLocalJno(jno);
 			localSqlTool.upLocalKQByJno(jno);
 			Intent intent = new Intent(context.getString(R.string.net_submit_kq_action));
 			intent.putExtra("toast", 1);
 			context.sendBroadcast(intent);
 		} catch (XmlPullParserException e1) {
 			Log.i("chen", "" + e1);
-			localSqlTool.upTeachProgressSave(jno);
+//			localSqlTool.upTeachProgressSave(jno);
 			context.sendBroadcast(new Intent(context.getString(R.string.network_error_action)));
 		} catch (IOException e) {
 			Log.i("chen", "" + e);
-			localSqlTool.upTeachProgressSave(jno);
+			//			localSqlTool.upTeachProgressSave(jno);
 			context.sendBroadcast(new Intent(context.getString(R.string.network_error_action)));
 		}
 	}
@@ -620,6 +619,7 @@ public class WebTool {
 	 * @param jno
 	 */
 	public void UpdateProgress(int jno) {
+		Log.i("chen","updateProgress jno="+jno);
 		// UpdateJDTBbyJno
 		List<Integer> jlist = new ArrayList<Integer>();
 		jlist.add(jno);

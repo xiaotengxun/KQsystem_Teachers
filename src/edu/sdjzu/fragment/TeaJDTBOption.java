@@ -108,6 +108,10 @@ public class TeaJDTBOption extends Fragment {
 
 				tool.deleteLocalProgress(listJno);
 				updateBtn();
+				proList = tool.existSavedTProgress();
+				initJdtb();
+				jdtbAdapter.setData(listM);
+				jdtbAdapter.notifyDataSetChanged();
 			}
 		});
 		cancelBtn.setOnClickListener(new OnClickListener() {
@@ -138,6 +142,7 @@ public class TeaJDTBOption extends Fragment {
 				Intent intent = new Intent();
 				intent.setClass(act, TeaIndexAct.class);
 				act.startActivity(intent);
+				act.finish();
 			}
 		});
 	}

@@ -364,11 +364,9 @@ public class LocalSqlTool {
 	public List<HashMap<String, String>> getStuListByClass(String cla, int jno, boolean isNormalKq) {
 		List<HashMap<String, String>> stuHash = new ArrayList<HashMap<String, String>>();
 		getStuList(jno);
-		if (cla.equals(context.getString(R.string.tea_class_all)) && isNormalKq) {
-			return new ArrayList<HashMap<String, String>>(stuListHashMap);
-		} else if (cla.equals(context.getString(R.string.tea_class_all)) && !isNormalKq) {
+		if (cla.equals(context.getString(R.string.tea_class_all))) {
 			stuHash = new ArrayList<HashMap<String, String>>(stuListHashMap);
-		} else if (!cla.equals(context.getString(R.string.tea_class_all))) {
+		}  else if (!cla.equals(context.getString(R.string.tea_class_all))) {
 			for (HashMap<String, String> hashMap : stuListHashMap) {
 				if (hashMap.get(KqOrderAdapter.Constant.stuClassKey).equalsIgnoreCase(cla)) {
 					HashMap<String, String> hm = new HashMap<String, String>(hashMap);
@@ -376,64 +374,64 @@ public class LocalSqlTool {
 				}
 			}
 		}
-		if (false == isNormalKq) {
-			List<HashMap<String, String>> stuHashLocal = new ArrayList<HashMap<String, String>>();
-			String sql = "";
-			Cursor cursor = null;
-			db = DatabaseManager.getInstance(context);
-			if (cla.equals(context.getString(R.string.tea_class_all))) {
-				sql = TeacherAttrSql.SQL_SELECT_FROM_KQRESULTLOCAL_ALL;
-				cursor = db.Query(sql, new String[] { String.valueOf(jno) });
-			} else {
-				sql = TeacherAttrSql.SQL_SELECT_FROM_KQRESULTLOCAL_BY_CLASS;
-				cursor = db.Query(sql, new String[] { String.valueOf(jno), cla });
+		// if (false == isNormalKq) {
+		List<HashMap<String, String>> stuHashLocal = new ArrayList<HashMap<String, String>>();
+		String sql = "";
+		Cursor cursor = null;
+		db = DatabaseManager.getInstance(context);
+		if (cla.equals(context.getString(R.string.tea_class_all))) {
+			sql = TeacherAttrSql.SQL_SELECT_FROM_KQRESULTLOCAL_ALL;
+			cursor = db.Query(sql, new String[] { String.valueOf(jno) });
+		} else {
+			sql = TeacherAttrSql.SQL_SELECT_FROM_KQRESULTLOCAL_BY_CLASS;
+			cursor = db.Query(sql, new String[] { String.valueOf(jno), cla });
+		}
+		if (null != cursor) {
+			while (cursor.moveToNext()) {
+				HashMap<String, String> localHashMap = new HashMap<String, String>();
+				localHashMap.put(KqOrderAdapter.Constant.stuSnoKey, cursor.getString(cursor.getColumnIndex("Sno")));
+				localHashMap.put(KqOrderAdapter.Constant.stuKqInTimeKey,
+						cursor.getString(cursor.getColumnIndex("InTime")));
+				localHashMap.put(KqOrderAdapter.Constant.stuClassOderStateKey,
+						cursor.getString(cursor.getColumnIndex("Kstate")));
+				stuHashLocal.add(localHashMap);
 			}
-			if (null != cursor) {
-				while (cursor.moveToNext()) {
-					HashMap<String, String> localHashMap = new HashMap<String, String>();
-					localHashMap.put(KqOrderAdapter.Constant.stuSnoKey, cursor.getString(cursor.getColumnIndex("Sno")));
-					localHashMap.put(KqOrderAdapter.Constant.stuKqInTimeKey,
-							cursor.getString(cursor.getColumnIndex("InTime")));
-					localHashMap.put(KqOrderAdapter.Constant.stuClassOderStateKey,
-							cursor.getString(cursor.getColumnIndex("Kstate")));
-					stuHashLocal.add(localHashMap);
-				}
-				cursor.close();
-				for (int i = 0; i < stuHashLocal.size(); i++) {// //////111111
-					HashMap<String, String> hashL = stuHashLocal.get(i);
-					for (int j = 0; j < stuHash.size(); j++) {// ///222222
-						HashMap<String, String> hashS = stuHash.get(j);
-						String inTimeS = hashS.get(KqOrderAdapter.Constant.stuKqInTimeKey);
-						String inTimeL = hashL.get(KqOrderAdapter.Constant.stuKqInTimeKey);
-						String kstateS = hashS.get(KqOrderAdapter.Constant.stuClassOderStateKey);
-						String kstateL = hashL.get(KqOrderAdapter.Constant.stuClassOderStateKey);
-						if (null != inTimeS
-								&& hashL.get(KqOrderAdapter.Constant.stuSnoKey).equals(
-										hashS.get(KqOrderAdapter.Constant.stuSnoKey))) {// //////33333
-							Log.i("chen", "find");
-							int compare = inTimeS.compareToIgnoreCase(inTimeL);
-							if (compare > 0) {// 服务器的时间最新
-								sql = "update KQresultLocal set InTime=?,Kstate=? where Sno=? and Jno=?";
-								db.execSQL(sql,
-										new String[] { inTimeS, kstateS, hashS.get(KqOrderAdapter.Constant.stuSnoKey),
-												String.valueOf(jno) });
-							} else if (compare < 0) {// 本地缓存的时间最新
-								stuHash.get(j).put(KqOrderAdapter.Constant.stuClassOderStateKey, kstateL);
-								int disAbsenceCounts = Integer.valueOf(hashS
-										.get(KqOrderAdapter.Constant.stuDisabsenceCountsKey));
+			cursor.close();
+			for (int i = 0; i < stuHashLocal.size(); i++) {// //////111111
+				HashMap<String, String> hashL = stuHashLocal.get(i);
+				for (int j = 0; j < stuHash.size(); j++) {// ///222222
+					HashMap<String, String> hashS = stuHash.get(j);
+					String inTimeS = hashS.get(KqOrderAdapter.Constant.stuKqInTimeKey);
+					String inTimeL = hashL.get(KqOrderAdapter.Constant.stuKqInTimeKey);
+					String kstateS = hashS.get(KqOrderAdapter.Constant.stuClassOderStateKey);
+					String kstateL = hashL.get(KqOrderAdapter.Constant.stuClassOderStateKey);
+					if (null != inTimeS
+							&& hashL.get(KqOrderAdapter.Constant.stuSnoKey).equals(
+									hashS.get(KqOrderAdapter.Constant.stuSnoKey))) {// //////33333
+						Log.i("chen", "find");
+						int compare = inTimeS.compareToIgnoreCase(inTimeL);
+						if (compare > 0) {// 服务器的时间最新
+							sql = "update KQresultLocal set InTime=?,Kstate=? where Sno=? and Jno=?";
+							db.execSQL(sql,
+									new String[] { inTimeS, kstateS, hashS.get(KqOrderAdapter.Constant.stuSnoKey),
+											String.valueOf(jno) });
+						} else if (compare < 0) {// 本地缓存的时间最新
+							stuHash.get(j).put(KqOrderAdapter.Constant.stuClassOderStateKey, kstateL);
+							int disAbsenceCounts = Integer.valueOf(hashS
+									.get(KqOrderAdapter.Constant.stuDisabsenceCountsKey));
 
-								if (kstateS.equals(kstateNormal) && kstateL.equals(kstateInNormal)) {
-									++disAbsenceCounts;
-								} else if (kstateS.equals(kstateInNormal) && kstateL.equals(kstateNormal)) {
-									--disAbsenceCounts;
-								}
-								stuHash.get(j).put(KqOrderAdapter.Constant.stuDisabsenceCountsKey,
-										String.valueOf(disAbsenceCounts));
+							if (kstateS.equals(kstateNormal) && kstateL.equals(kstateInNormal)) {
+								++disAbsenceCounts;
+							} else if (kstateS.equals(kstateInNormal) && kstateL.equals(kstateNormal)) {
+								--disAbsenceCounts;
 							}
-						}// //////33333
-					}// ////222222
-				}// ////////////////////111111
-			}
+							stuHash.get(j).put(KqOrderAdapter.Constant.stuDisabsenceCountsKey,
+									String.valueOf(disAbsenceCounts));
+						}
+					}// //////33333
+				}// ////222222
+			}// ////////////////////111111
+				// }
 		}
 		return stuHash;
 	}
@@ -691,22 +689,12 @@ public class LocalSqlTool {
 		db.execSQL(sql, new String[] { context.getString(R.string.sql_Kqresult_Kstate_submit), String.valueOf(jno) });
 	}
 
-	/**
-	 * 根据进度号删除本地的之前没有提交进度表
-	 * 
-	 * @param jno
-	 */
-	public void upLocalJno(int jno) {
-		String sql = TeacherAttrSql.SQL_Delete_TEACHLocalPROGRESS_JNO;
-		db = DatabaseManager.getInstance(context);
-		db.execSQL(sql, new String[] { String.valueOf(jno) });
-	}
 
-	/**
+/*	*//**
 	 * 在无网络的情况下保存本地的进度状态为保存状态
 	 * 
 	 * @param jno
-	 */
+	 *//*
 	public void upTeachProgressSave(int jno) {
 		db = DatabaseManager.getInstance(context);
 		String sql = "";
@@ -739,30 +727,40 @@ public class LocalSqlTool {
 		}
 		cursor.close();
 	}
-
+*/
 	/**
 	 * 判断是否存在已保存但未提交的考勤进度
 	 * 
 	 * @return
 	 */
 	public List<TeachProgress> existSavedTProgress() {
-		String sql = TeacherAttrSql.SQL_EXIST_SAVED_TEACHLocalPROGRESS;
-		List<TeachProgress> list = new ArrayList<TeachProgress>();
+		String sql = "select * from KQresultLocal where IsSubmin='" + context.getString(R.string.sql_teachprogress_no)
+				+ "' group by jno";
 		db = DatabaseManager.getInstance(context);
-		Cursor cursor = db.Query(
-				sql,
-				new String[] { context.getString(R.string.sql_Kqresult_Kstate_saved),
-						context.getString(R.string.sql_teachprogress_no) });
+		Cursor cursor = db.Query(sql, null);
+		List<String> jnoList = new ArrayList<String>();
 		while (cursor.moveToNext()) {
-			TeachProgress tp = new TeachProgress();
-			tp.setCourseName(cursor.getString(cursor.getColumnIndex("Cname")));
-			tp.setTaskNo(Integer.valueOf(cursor.getString(cursor.getColumnIndex("Rno"))));
-			tp.setProgressNo(Integer.valueOf(cursor.getString(cursor.getColumnIndex("Jno"))));
-			tp.setProgressJTime(cursor.getString(cursor.getColumnIndex("Jtime")));
-			tp.setProgressWeek(cursor.getString(cursor.getColumnIndex("Jweek")));
-			list.add(tp);
+			jnoList.add(cursor.getString(cursor.getColumnIndex("Jno")));
 		}
 		cursor.close();
+		List<TeachProgress> list = new ArrayList<TeachProgress>();
+		if (jnoList.size() > 0) {
+			sql = "select * from TeachProgress where jno=" + jnoList.get(0);
+			for (int i = 1; i < jnoList.size(); i++) {
+				sql += " or jno=" + jnoList.get(i);
+			}
+			cursor = db.Query(sql, null);
+			while (cursor.moveToNext()) {
+				TeachProgress tp = new TeachProgress();
+				tp.setCourseName(cursor.getString(cursor.getColumnIndex("Cname")));
+				tp.setTaskNo(Integer.valueOf(cursor.getString(cursor.getColumnIndex("Rno"))));
+				tp.setProgressNo(Integer.valueOf(cursor.getString(cursor.getColumnIndex("Jno"))));
+				tp.setProgressJTime(cursor.getString(cursor.getColumnIndex("Jtime")));
+				tp.setProgressWeek(cursor.getString(cursor.getColumnIndex("Jweek")));
+				list.add(tp);
+			}
+			cursor.close();
+		}
 		return list;
 	}
 
@@ -814,7 +812,7 @@ public class LocalSqlTool {
 	 * @param listJno
 	 */
 	public void deleteLocalProgress(List<Integer> listJno) {
-		String sql = "delete from TeachLocalProgress where";
+		String sql = "delete from KQresultLocal where";
 		int jnoCounts = listJno.size();
 		if (jnoCounts > 0) {
 			for (int i = 0; i < jnoCounts - 1; i++) {
@@ -868,46 +866,57 @@ public class LocalSqlTool {
 		return listKQ;
 
 	}
-	
-	/**
-	 * 判断是否可以补录
-	 * @param jno
-	 * @return
-	 */
-	public boolean isAllowKQByJno(int jno){
-		db=DatabaseManager.getInstance(context);
-		String sql="select * from TeachLocalProgress where jno="+String.valueOf(jno);
-		Cursor cursor=db.Query(sql, null);
-		boolean isAllow=false;
-		if(cursor.getCount()>0){
-			isAllow=true;
-		}else{
-			isAllow=false;
-		}
-		return isAllow;
-	}
+
 	/**
 	 * 其它用户登录时清除之前用户的所有信息
 	 */
-	public void clearCache(){
+	public void clearCache() {
 		db = DatabaseManager.getInstance(context);
-		String sql="delete from UserInf";
+		String sql = "delete from UserInf";
 		db.execSQL(sql);
-		sql="delete from Teachers";
+		sql = "delete from Teachers";
 		db.execSQL(sql);
-		sql="delete from TeachProgress";
+		sql = "delete from TeachProgress";
 		db.execSQL(sql);
-		sql="delete from TeachTask";
+		sql = "delete from TeachTask";
 		db.execSQL(sql);
-		sql="delete from TeachLocalProgress";
+		sql = "delete from TeachLocalProgress";
 		db.execSQL(sql);
-		sql="delete from KQresult";
+		sql = "delete from KQresult";
 		db.execSQL(sql);
-		sql="delete from KQresultLocal";
+		sql = "delete from KQresultLocal";
 		db.execSQL(sql);
-		sql="delete from Students";
+		sql = "delete from Students";
 		db.execSQL(sql);
 	}
-	
+
+	/**
+	 * 根据进度号判断当前进度是否已经提交
+	 * 
+	 * @param jno
+	 * @return
+	 */
+	public boolean isJnoSubmit(int jno) {
+		boolean isSubmit = false;
+		String sql = "select * from TeachProgress where Jno=" + String.valueOf(jno);
+		db = DatabaseManager.getInstance(context);
+		Cursor cursor = db.Query(sql, null);
+		if (cursor.moveToNext()) {
+			if (context.getString(R.string.sql_Kqresult_Kstate_submit).equals(
+					cursor.getString(cursor.getColumnIndex("IsKQ")))) {
+				isSubmit = true;
+			}
+		}
+		cursor.close();
+		/*
+		 * if(!isSubmit){
+		 * sql="select * from TeachLocalProgress where Jno="+String
+		 * .valueOf(jno);; db=DatabaseManager.getInstance(context);
+		 * cursor=db.Query(sql, null); if(cursor.moveToNext()){
+		 * if(context.getString
+		 * (R.string.sql_Kqresult_Kstate_submit).equals(cursor
+		 * .getString(cursor.getColumnIndex("IsKQ")))){ isSubmit=true; } } }
+		 */return isSubmit;
+	}
 
 }
