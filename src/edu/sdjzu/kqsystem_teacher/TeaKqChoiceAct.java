@@ -124,7 +124,8 @@ public class TeaKqChoiceAct extends FragmentActivity implements OnLook {
 
 	private void goBuluFrag(String course, String week, String claTime, String cla) {
 		HashMap<String, String> hash = loginClass.getBuluJnoRno(course, week, claTime);
-		if (loginClass.isAllowKQByJno(Integer.valueOf(hash.get(TeacherAttr.jnoKey)))) {
+		if (loginClass.isAllowKQByJno(Integer.valueOf(hash.get(TeacherAttr.jnoKey)))
+				&& !loginClass.isJnoSubmit(Integer.valueOf(hash.get(TeacherAttr.jnoKey)))) {
 			Intent intent = new Intent();
 			intent.putExtra(TeacherAttr.jnoKey, hash.get(TeacherAttr.jnoKey));
 			intent.putExtra(TeacherAttr.rnoKey, hash.get(TeacherAttr.rnoKey));

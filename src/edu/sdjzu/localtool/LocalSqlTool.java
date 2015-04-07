@@ -365,7 +365,7 @@ public class LocalSqlTool {
 		List<HashMap<String, String>> stuHash = new ArrayList<HashMap<String, String>>();
 		getStuList(jno);
 		if (cla.equals(context.getString(R.string.tea_class_all)) && isNormalKq) {
-			return new ArrayList<HashMap<String, String>>(stuListHashMap);
+			stuHash= new ArrayList<HashMap<String, String>>(stuListHashMap);
 		} else if (cla.equals(context.getString(R.string.tea_class_all)) && !isNormalKq) {
 			stuHash = new ArrayList<HashMap<String, String>>(stuListHashMap);
 		} else if (!cla.equals(context.getString(R.string.tea_class_all))) {
@@ -376,7 +376,7 @@ public class LocalSqlTool {
 				}
 			}
 		}
-		if (false == isNormalKq) {
+//		if (false == isNormalKq) {
 			List<HashMap<String, String>> stuHashLocal = new ArrayList<HashMap<String, String>>();
 			String sql = "";
 			Cursor cursor = null;
@@ -433,7 +433,7 @@ public class LocalSqlTool {
 						}// //////33333
 					}// ////222222
 				}// ////////////////////111111
-			}
+//			}
 		}
 		return stuHash;
 	}
@@ -880,9 +880,9 @@ public class LocalSqlTool {
 		Cursor cursor=db.Query(sql, null);
 		boolean isAllow=false;
 		if(cursor.getCount()>0){
-			isAllow=true;
-		}else{
 			isAllow=false;
+		}else{
+			isAllow=true;
 		}
 		return isAllow;
 	}
@@ -907,6 +907,35 @@ public class LocalSqlTool {
 		db.execSQL(sql);
 		sql="delete from Students";
 		db.execSQL(sql);
+	}
+	
+	/**
+	 * 根据进度号判断当前进度是否已经提交
+	 * @param jno
+	 * @return
+	 */
+	public boolean isJnoSubmit(int jno){
+		boolean isSubmit=false;
+		String sql="select * from TeachProgress where Jno="+String.valueOf(jno);
+		db=DatabaseManager.getInstance(context);
+		Cursor cursor=db.Query(sql, null);
+		if(cursor.moveToNext()){
+			if(context.getString(R.string.sql_Kqresult_Kstate_submit).equals(cursor.getString(cursor.getColumnIndex("IsKQ")))){
+				isSubmit=true;
+			}
+		}
+		cursor.close();
+		if(!isSubmit){
+			sql="select * from TeachLocalProgress where Jno="+String.valueOf(jno);;
+			db=DatabaseManager.getInstance(context);
+			cursor=db.Query(sql, null);
+			if(cursor.moveToNext()){
+				if(context.getString(R.string.sql_Kqresult_Kstate_submit).equals(cursor.getString(cursor.getColumnIndex("IsKQ")))){
+					isSubmit=true;
+				}
+			}
+		}
+		return isSubmit;
 	}
 	
 

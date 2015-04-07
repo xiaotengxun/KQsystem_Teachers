@@ -80,11 +80,15 @@ public class TeaIndexAct extends FragmentActivity {
 		int[] jrno = lgClass.getCurrentProgress();
 		if (jrno[0] != -1) {
 			jno = jrno[0];
+			if(!lgClass.isJnoSubmit(jno)){
 			rno = jrno[1];
 			intent.setClass(TeaIndexAct.this, TeaStuOrderAct.class);
 			intent.putExtra(TeacherAttr.jnoKey, String.valueOf(jno));
 			intent.putExtra(TeacherAttr.rnoKey, String.valueOf(rno));
 			startActivity(intent);
+			}else{
+				Toast.makeText(TeaIndexAct.this, getString(R.string.kq_submit_tip1),1000).show();
+			}
 		}
 	}
 

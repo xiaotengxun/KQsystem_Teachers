@@ -293,4 +293,14 @@ public class TeaTool {
 			e.printStackTrace();
 		}
 	}
+	
+	
+	/**
+	 * 根据进度号判断当前进度是否已经提交
+	 * @param jno
+	 * @return
+	 */
+	public boolean isJnoSubmit(int jno){
+		return new LocalSqlTool(context).isJnoSubmit(jno);
+	}
 }

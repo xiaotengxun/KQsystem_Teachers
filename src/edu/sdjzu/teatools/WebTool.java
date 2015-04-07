@@ -252,7 +252,7 @@ public class WebTool {
 					t.setInMan(s.getProperty("InMan").toString());
 					t.setInTime(s.getProperty("InTime").toString());
 					lisTP.add(t);
-					Log.i("chen", "getAllJDTBbyTno TeachProgress.prgress time=" + t.getEndTime());
+					Log.i("chen", "getAllJDTBbyTno TeachProgress.prgress time=" + t.getEndTime()+"  prgress.Cname="+t.getCourseName()+"   prgress.Jno="+t.getProgressNo());
 				}
 			}
 		} catch (SoapFault e) {
@@ -620,6 +620,7 @@ public class WebTool {
 	 * @param jno
 	 */
 	public void UpdateProgress(int jno) {
+		Log.i("chen","updateProgress jno="+jno);
 		// UpdateJDTBbyJno
 		List<Integer> jlist = new ArrayList<Integer>();
 		jlist.add(jno);
