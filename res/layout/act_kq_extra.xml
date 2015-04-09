@@ -13,11 +13,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/home_kq_lookback"
-            android:visibility="invisible"
-            android:textSize="30sp" />
+            android:textSize="30sp"
+            android:visibility="invisible" />
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/kq_extra_rel"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal" >
@@ -83,7 +84,7 @@
             <Spinner
                 android:id="@+id/kq_extra_week"
                 android:layout_width="150dp"
-                 android:layout_height="@dimen/kq_choci_spinner_height"
+                android:layout_height="@dimen/kq_choci_spinner_height"
                 android:layout_toRightOf="@+id/kq_extra_week_lable" />
         </RelativeLayout>
 
@@ -119,10 +120,10 @@
 
         <Button
             android:id="@+id/kq_extra_sure"
-            android:text="@string/btn_sure"
-            android:textSize="30sp"
             android:layout_width="150dp"
-            android:layout_height="80dp" />
+            android:layout_height="80dp"
+            android:text="@string/btn_sure"
+            android:textSize="30sp" />
     </RelativeLayout>
 
 </RelativeLayout>

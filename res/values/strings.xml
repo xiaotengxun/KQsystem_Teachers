@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string name="kq__all">全部</string>
     <string name="kq_submit_tip1">当前课程已经考勤过！</string>
     <string name="back_tip1">再按一次推出!</string>
     <string name="btn_delete">删除</string>

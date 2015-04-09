@@ -47,7 +47,6 @@ public class TeaJDTBTipAct extends FragmentActivity implements JDTBDetailOnClick
 		initFrag();
 	}
 
-
 	private void initJdtb() {
 		loginClass = new TeaTool(this);
 		proList = (List<TeachProgress>) getIntent().getSerializableExtra(TeacherAttr.progressSavedKey);
@@ -70,6 +69,8 @@ public class TeaJDTBTipAct extends FragmentActivity implements JDTBDetailOnClick
 	}
 
 	private void goJDTBDetail(int jno, String courseName, String courseWeek, String courseJtime) {
+		Log.i("chen", "goJDTBDetail   jno=" + jno + "    courseName=" + courseName + "  courseWeek=" + courseWeek
+				+ "   courseJtime=" + courseJtime);
 		FragmentTransaction transaction = fm.beginTransaction();
 		Bundle b = new Bundle();
 		b.putSerializable(TeacherAttr.jdtbKQStuKey, (Serializable) loginClass.getKQStuByJno(jno));
@@ -96,7 +97,7 @@ public class TeaJDTBTipAct extends FragmentActivity implements JDTBDetailOnClick
 		if (fm.getBackStackEntryCount() > 0) {
 			fm.popBackStack();
 		} else {
-			
+
 		}
 	}
 

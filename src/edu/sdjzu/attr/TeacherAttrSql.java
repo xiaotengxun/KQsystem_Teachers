@@ -20,7 +20,7 @@ public class TeacherAttrSql {// UserInf
 	public static final String SQL_SELECT_FROM_KQRESULTLOCAL_ALL = "select * from KQresultLocal where Jno=?";// 判断本地缓存KQresultLocal有没有
 	public static final String SQL_SELECT_FROM_KQRESULTLOCAL_BY_CLASS = "select K.Sno as Sno,K.InTime as InTime,K.Kstate as Kstate from KQresultLocal K,Students S where Jno=? and S.Sclass=?";// 判断本地缓存KQresultLocal有没有
 	public static final String SQL_DELETE_FROM_KQRESULTLOCAL = "delete from KQresultLocal where Jno=? and Sno=?";// 根据进度号学号删除kqresult
-	public static final String SQL_DELETE_FROM_KQRESULT_ALL="delete from KQresult";
+	public static final String SQL_DELETE_FROM_KQRESULT_ALL = "delete from KQresult";
 	public static final String SQL_INSERT_TO_KQRESULT = "insert into KQresult(Rno,Jno,Sno,Kstate,"
 			+ "Kmarks,IsSubmin,InMan,InTime) values(?,?,?,?,?,?,?,?)";// 插入考勤信息
 	public static final String SQL_INSERT_TO_KQRESULTLocal = "insert into KQresultLocal(Rno,Jno,Sno,Kstate,"
@@ -40,10 +40,11 @@ public class TeacherAttrSql {// UserInf
 	public static final String SQL_SELECT_FROM_TEACHPROGRESS_ALL_COURSE = "select distinct Cname from TeachTask";// 获得进度表里的所有课程名称信息
 	public static final String SQL_SELECT_FROM_TEACHPROGRESS_ALL_WEEK = "select distinct Jweek from TeachProgress";// 获得进度表里的所有周
 	public static final String SQL_SELECT_FROM_TEACHPROGRESS_ALL_CLASSTIME = "select distinct Jtime from TeachProgress";// 获得进度表里的所有上课节次信息
-	public static final String SQL_SELECT_LOOK_KQ_PER_CLASS = "select S.Sname as sname,S.Sno as sno,S.Sclass as sclass,"
+	public static final String SQL_SELECT_LOOK_LOCALKQ_PER_CLASS = "select S.Sname as sname,S.Sno as sno,S.Sclass as sclass,"
 			+ "KQ.Kstate as state from TeachProgress as J,KQresultLocal as KQ,Students as S where J.Cname=? and J.Jweek=?"
 			+ " and J.Jtime=? and S.Sclass=? and J.Jno=KQ.Jno and KQ.Sno=S.Sno";// 考勤特定班级查看
-	public static final String SQL_SELECT_LOOK_KQ_ALL_CLASS = "select S.Sname as sname,S.Sno as sno,S.Sclass as sclass,KQ.Kstate as state from TeachProgress as J,KQresultLocal as KQ,Students as S where J.Cname=? and J.Jweek=?"
+	public static final String SQL_SELECT_LOOK_LOCALKQ_ALL_CLASS = "select S.Sname as sname,S.Sno as sno,S.Sclass as sclass,KQ.Kstate as state from"
+			+ " TeachProgress as J,KQresultLocal as KQ,Students as S where J.Cname=? and J.Jweek=?"
 			+ " and J.Jtime=?  and J.Jno=KQ.Jno and KQ.Sno=S.Sno";// 考勤全部班级查看
 	public static final String SQL_SELECT_BULU_RNO_JNO = "select * from TeachProgress where Cname=? and "
 			+ "Jweek=? and Jtime=?";// 考勤补录查询进度号和任务号
@@ -59,13 +60,13 @@ public class TeacherAttrSql {// UserInf
 
 	public static final String SQL_UPDATE_KQRESULTLocal_BY_JNO = "update KQresultLocal set IsSubmin=? where Jno=?";// 根据进度号跟新考勤状态为已提交
 
-	public static final String SQL_DELETE_KQRESULTLOCAL_BY_JNO="update  KQresultLocal set IsSubmin=? where Jno=?";
+	public static final String SQL_DELETE_KQRESULTLOCAL_BY_JNO = "update  KQresultLocal set IsSubmin=? where Jno=?";
 	public static final String SQL_Delete_TEACHLocalPROGRESS_JNO = "delete from TeachLocalProgress where jno=?";// 根据进度号更新本地的进度表为已提交
 	public static final String SQL_UPDATE_TEACHPROGRESS_SAVE = "update TeachProgress set IsSaved=? where Jno=?";// 根据进度号在没网络的情况下设置保存状态为保存
 	public static final String SQL_EXIST_SAVED_TEACHLocalPROGRESS = "select * from TeachLocalProgress where IsSaved=? and IsKQ=?";// 查找是否存在由于网络原因而未提交的进度
 
 	public static final String SQL_KQ_NOT_SUBMIT_STU = "select S.Sno as sno,S.Sname as sname,S.Sclass as sclass from "
-			+ "Students as S,KQresultLocal as KQ where KQ.Jno=? and KQ.Sno=S.Sno and KQ.Kstate<>?";// 获得未提交的考勤信息
+			+ "Students as S,KQresultLocal as KQ where KQ.Jno=? and KQ.Sno=S.Sno";// 获得未提交的考勤信息
 
 	public static final String SQL_SELECT_FROM_TEACHERPROGRESS_BY_JNO = "select * from TeachProgress where jno=?";
 	public static final String SQL_SELECT_FROM_TEACHLOCALPROGRESS_BY_JNO = "select * from TeachLocalProgress where jno=?";

@@ -26,6 +26,7 @@ import edu.sdjzu.attr.TeacherAttr;
 import edu.sdjzu.fragment.TeaKqChoiceOption;
 import edu.sdjzu.fragment.TeaKqChoiceOption.OnLook;
 import edu.sdjzu.fragment.TeaKqLook;
+import edu.sdjzu.model.KQLookInfo;
 import edu.sdjzu.teatools.TeaTool;
 
 public class TeaKqChoiceAct extends FragmentActivity implements OnLook {
@@ -33,7 +34,7 @@ public class TeaKqChoiceAct extends FragmentActivity implements OnLook {
 	private Fragment lookFrag, buluFrag;
 	private String choiceType = "";
 	private TeaTool loginClass;
-	private List<HashMap<String, String>> listHash;
+	private List<KQLookInfo> listKqInfo;
 	private Handler mHandler;
 	private final int KQ_BULU = 0;
 	private final int KQ_LOOK = 1;
@@ -74,7 +75,7 @@ public class TeaKqChoiceAct extends FragmentActivity implements OnLook {
 	private void initData() {
 		choiceType = getIntent().getStringExtra(TeacherAttr.kqExtraChoice);
 		loginClass = new TeaTool(this);
-		listHash = new ArrayList<HashMap<String, String>>();
+		listKqInfo = new ArrayList<KQLookInfo>();
 		if (choiceType.equals(TeacherAttr.kqLookBackKey)) {
 			updateActionBar(KQ_LOOK);
 		} else if (choiceType.equals(TeacherAttr.kqBuluKey)) {
@@ -105,7 +106,8 @@ public class TeaKqChoiceAct extends FragmentActivity implements OnLook {
 	}
 
 	private void goLookFrag(String course, String cla, String week, String claTime) {
-		listHash = loginClass.getLookKq(course, cla, week, claTime);
+		listKqInfo = loginClass.getLookKq(course, cla, week, claTime);
+		Log.i("chen","goLookFrag   listKqInfo.size()="+listKqInfo.size());
 		lookFrag = new TeaKqLook();
 		week = String.format(getString(R.string.tea_look_weekformat), week);
 		ArrayList<String> sList = new ArrayList<String>();
@@ -115,7 +117,7 @@ public class TeaKqChoiceAct extends FragmentActivity implements OnLook {
 		sList.add(cla);
 		FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 		Bundle b = new Bundle();
-		b.putSerializable(TeacherAttr.kqLookDataKey, (Serializable) listHash);
+		b.putSerializable(TeacherAttr.kqLookDataKey, (Serializable) listKqInfo);
 		b.putStringArrayList(TeacherAttr.kqLookTitle, sList);
 		lookFrag.setArguments(b);
 		transaction.replace(R.id.kq_extra_home_fram, lookFrag);

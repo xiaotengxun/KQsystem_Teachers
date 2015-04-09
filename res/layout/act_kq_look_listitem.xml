@@ -21,7 +21,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="陈书万"
-                android:textSize="20sp" />
+                android:textColor="@color/color_black"
+                android:textSize="@dimen/kq_look_lsv_item_size" />
 
             <TextView
                 android:id="@+id/bulu_stuclass"
@@ -30,7 +31,8 @@
                 android:layout_marginLeft="5dp"
                 android:layout_toRightOf="@+id/bulu_stuname"
                 android:text="计科113"
-                android:textSize="20sp" />
+                android:textColor="@color/color_black"
+                android:textSize="@dimen/kq_look_lsv_item_size" />
         </RelativeLayout>
     </RelativeLayout>
 
@@ -44,7 +46,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="2011111112"
-            android:textSize="20sp" />
+            android:textColor="@color/color_black"
+            android:textSize="@dimen/kq_look_lsv_item_size" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -59,7 +62,7 @@
             android:layout_height="wrap_content"
             android:text="缺勤"
             android:textColor="@color/color_red"
-            android:textSize="20sp" />
+            android:textSize="@dimen/kq_look_lsv_item_size" />
     </RelativeLayout>
 
 </RelativeLayout>

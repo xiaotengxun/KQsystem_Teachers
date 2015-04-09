@@ -1,5 +1,6 @@
 <resources>
 
+    <color name="kq_look_title_bg">#8f7fc3</color>
     <color name="color_extra_item">#bdb8b9</color>
     <color name="kq_order_stu_background_two">#c4bdbf</color>
     <color name="kq_order_stu_background_one">#e7e4e5</color>

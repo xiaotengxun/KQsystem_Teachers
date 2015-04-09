@@ -1,5 +1,6 @@
 package edu.sdjzu.fragment;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
@@ -16,6 +17,8 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.RadioGroup;
+import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
@@ -62,12 +65,21 @@ public class TeaKqChoiceOption extends Fragment {
 	}
 
 	private void initView() {
-
 		titleTV = (TextView) getView().findViewById(R.id.kq_extra_title);
 		if (titleType.equals(TeacherAttr.kqBuluKey)) {
 			titleTV.setText(getString(R.string.home_kq_bulu));
 		} else {
 			titleTV.setText(getString(R.string.home_kq_lookback));
+			List<String> list = new ArrayList<String>(weekList);
+			weekList.clear();
+			weekList.add(getString(R.string.kq__all));
+			weekList.addAll(list);
+
+			list.clear();
+			list = new ArrayList<String>(classTimeList);
+			classTimeList.clear();
+			classTimeList.add(getString(R.string.kq__all));
+			classTimeList.addAll(list);
 		}
 		btnSure = (Button) getView().findViewById(R.id.kq_extra_sure);
 
@@ -82,14 +94,13 @@ public class TeaKqChoiceOption extends Fragment {
 		spinnerClassTime.setAdapter(new SpinAdapter(getActivity(), classTimeList));
 
 		btnSure.setOnClickListener(new OnClickListener() {
-
 			@Override
 			public void onClick(View v) {
 				if (courseString != null && classString != null && weekString != null && classTimeString != null) {
 					if (courseString.length() > 0 && classString.length() > 0 && weekString.length() > 0
 							&& classTimeString.length() > 0) {
 						if (onLook != null) {
-							onLook.showLook(courseString, classString, weekString, classTimeString,titleType);
+							onLook.showLook(courseString, classString, weekString, classTimeString, titleType);
 						}
 					}
 				}
@@ -158,7 +169,7 @@ public class TeaKqChoiceOption extends Fragment {
 	 * 
 	 */
 	public interface OnLook {
-		public void showLook(String course, String cla, String week, String claTime,String kqKey);
+		public void showLook(String course, String cla, String week, String claTime, String kqKey);
 	};
 
 	private class SpinAdapter extends BaseAdapter implements SpinnerAdapter {

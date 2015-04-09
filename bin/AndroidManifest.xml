@@ -46,9 +46,7 @@
             android:name="edu.sdjzu.kqsystem_teacher.TeaJDTBTipAct"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
-        <activity
-            android:name="edu.sdjzu.kqsystem_teacher.TeaStuOrderAct"
-            >
+        <activity android:name="edu.sdjzu.kqsystem_teacher.TeaStuOrderAct" >
         </activity>
 
         <receiver android:name="edu.sdjzu.broadcast.NetErrorReceiver" >

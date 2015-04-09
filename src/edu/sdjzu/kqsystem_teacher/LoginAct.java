@@ -1,15 +1,23 @@
 package edu.sdjzu.kqsystem_teacher;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.Serializable;
+import java.util.Enumeration;
 import java.util.List;
-
-import com.example.kqsystem_teachers.R;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipException;
+import java.util.zip.ZipFile;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
@@ -20,6 +28,9 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.example.kqsystem_teachers.R;
+
 import edu.sdjzu.attr.TeacherAttr;
 import edu.sdjzu.model.TeachProgress;
 import edu.sdjzu.service.NetService;

@@ -37,6 +37,8 @@ public class KqOrderAdapter extends BaseAdapter {
 		// public static String stuClassStateKey = "stuClassStateKey";
 		public static String stuClassOderStateKey = "stuClassOderStateKey";
 		public static String stuKqInTimeKey = "stuKqInTimeKey";
+		public static String stuClassWeekKey="stuClassWeekKey";
+		public static String stuClassJTimeKey="stuClassJTime";
 
 	};
 

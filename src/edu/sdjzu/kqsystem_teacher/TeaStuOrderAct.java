@@ -17,6 +17,7 @@ import android.os.Message;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,8 +26,14 @@ import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.RadioButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,6 +58,8 @@ public class TeaStuOrderAct extends FragmentActivity {
 	private TeaTool loginClass;
 	private static onListClassListItemClick classListClick = null;
 	private static onPicClassListItemClick classPicClick = null;
+	private static onFilterChoseListStuListener filterChoseListStuListener = null;
+	private static onFilterChosePicStuListener filterChosePicStuListener = null;
 	private RadioButton radioList, radioPic;
 	private final String stuListKey = "stuListKey", stuPicKey = "stuPicKey";
 	private android.support.v4.app.Fragment stuListFrag, stuPicFrag;
@@ -59,10 +68,10 @@ public class TeaStuOrderAct extends FragmentActivity {
 	private String currentClass;// 补录考勤的班级
 	private MyNetErrorReceiver netErrorReceiver = null;
 	private MyNetSubmitKQReceiver netSubmitKQReceiver = null;
-	private boolean isNormalKq = true;// 是否是正常考勤，而不是考勤查看或考勤补录，默认是正常考勤
 	private ProgressDialog progressDialog;// 考勤提交时的进度条
 	private Handler mHandler;
 	private final int PROGRESS_CANCEL = 0;
+	private PopupWindow popWindowFilter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -75,14 +84,11 @@ public class TeaStuOrderAct extends FragmentActivity {
 		initView();
 		setListener();
 		if (currentClass == null) {
-			Log.i("chen", "class null");
-			currentClass=getString(R.string.tea_class_all);
-			isNormalKq = true;
+			currentClass = getString(R.string.tea_class_all);
 		} else {
 			// 非正常考勤情况下根据班级获得相应的学生
-			isNormalKq = false;
 		}
-		listHash = loginClass.getStuListByClass(currentClass, currentJno, isNormalKq);
+		listHash = loginClass.getStuListByClass(currentClass, currentJno, filterType);
 		initActionBar();
 		registerReceiver();
 		initProgressDialog();
@@ -125,6 +131,15 @@ public class TeaStuOrderAct extends FragmentActivity {
 		radioPic = (RadioButton) view.findViewById(R.id.kq_order_mode_pic);
 		radioList.setOnClickListener(radioCheckListener);
 		radioPic.setOnClickListener(radioCheckListener);
+		RelativeLayout filterBtn = (RelativeLayout) view.findViewById(R.id.kq_order_filter);
+		filterBtn.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (!popWindowFilter.isShowing()) {
+					popWindowFilter.showAtLocation(anchor, Gravity.BOTTOM, 0, 0);
+				}
+			}
+		});
 	}
 
 	private void initView() {
@@ -143,7 +158,71 @@ public class TeaStuOrderAct extends FragmentActivity {
 		transaction.add(R.id.kq_container, stuPicFrag, stuPicKey);
 		transaction.hide(stuPicFrag);
 		transaction.commit();
+		View view = getLayoutInflater().inflate(R.layout.kq_filter, null);
+		popWindowFilter = new PopupWindow(view, android.view.ViewGroup.LayoutParams.FILL_PARENT,
+				android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
+		anchor = findViewById(R.id.filter_container);
+		popWindowFilter.setAnimationStyle(R.style.PopupAnimation);
+		filterDefault = (CheckBox) view.findViewById(R.id.kq_order_filter_default);
+		filterUp = (CheckBox) view.findViewById(R.id.kq_order_filter_up);
+		filterDown = (CheckBox) view.findViewById(R.id.kq_order_filter_down);
+		filterBtnFinish = (Button) view.findViewById(R.id.kq_order_filter_finish);
+		filterBtnFinish.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				popWindowFilter.dismiss();
+				if (lastFilterType != filterType) {
+					listHash = loginClass.getStuListByClass(currentClass, currentJno, filterType);
+					if (null != filterChoseListStuListener) {
+						filterChoseListStuListener.filterChosen(filterType);
+						lastFilterType = filterType;
+					}
+					if (null != filterChosePicStuListener) {
+						filterChosePicStuListener.filterChosen(filterType);
+						lastFilterType = filterType;
+					}
+				}
+			}
+		});
+		filterDefault.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				filterDefault.setChecked(true);
+				filterDown.setChecked(false);
+				filterUp.setChecked(false);
+				filterType = 0;
+			}
+		});
+		filterDown.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				filterDefault.setChecked(false);
+				filterDown.setChecked(true);
+				filterUp.setChecked(false);
+				filterType = 2;
+			}
+		});
+		filterUp.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				filterDefault.setChecked(false);
+				filterDown.setChecked(false);
+				filterUp.setChecked(true);
+				filterType = 1;
+			}
+		});
 	}
+
+	private int lastFilterType = 0;
+	private int filterType = 0;// 筛选类型，0：默认缺勤排序，1：增序，2：降序
+	private View anchor;
+	private CheckBox filterDefault = null;
+	private CheckBox filterUp = null;
+	private CheckBox filterDown = null;
+	private Button filterBtnFinish = null;
 
 	/**
 	 * 正常考勤情况下获得老师所交的所有学生
@@ -165,7 +244,7 @@ public class TeaStuOrderAct extends FragmentActivity {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 				String cla = ((TextView) arg1).getText().toString();
-				listHash = loginClass.getStuListByClass(cla, currentJno, isNormalKq);
+				listHash = loginClass.getStuListByClass(cla, currentJno, filterType);
 				if (classListClick != null) {
 					classListClick.choseClassList(cla);
 				}
@@ -175,6 +254,22 @@ public class TeaStuOrderAct extends FragmentActivity {
 			}
 		});
 	}
+
+	public static void setOnFilterChoseListStuListener(onFilterChoseListStuListener listen) {
+		filterChoseListStuListener = listen;
+	}
+
+	public static interface onFilterChoseListStuListener {
+		public void filterChosen(int type);
+	};
+
+	public static void setOnFilterChoseListPicListener(onFilterChosePicStuListener listen) {
+		filterChosePicStuListener = listen;
+	}
+
+	public static interface onFilterChosePicStuListener {
+		public void filterChosen(int type);
+	};
 
 	public static void setListClassItemOnClickListener(onListClassListItemClick c) {
 		classListClick = c;

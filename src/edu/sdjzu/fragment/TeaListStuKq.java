@@ -15,12 +15,12 @@ import android.widget.ListView;
 import com.example.kqsystem_teachers.R;
 
 import edu.sdjzu.adapter.KqOrderAdapter;
-import edu.sdjzu.kqsystem_teacher.TeaIndexAct;
 import edu.sdjzu.kqsystem_teacher.TeaStuOrderAct;
+import edu.sdjzu.kqsystem_teacher.TeaStuOrderAct.onFilterChoseListStuListener;
 import edu.sdjzu.kqsystem_teacher.TeaStuOrderAct.onListClassListItemClick;
 import edu.sdjzu.teatools.TeaTool;
 
-public class TeaListStuKq extends Fragment implements onListClassListItemClick {
+public class TeaListStuKq extends Fragment implements onListClassListItemClick, onFilterChoseListStuListener {
 	private List<HashMap<String, String>> listHash = new ArrayList<HashMap<String, String>>();
 	private ListView stuListView;
 	private TeaTool loginClass;
@@ -40,6 +40,7 @@ public class TeaListStuKq extends Fragment implements onListClassListItemClick {
 		kqOrderAdapter = new KqOrderAdapter(getActivity(), listHash);
 		stuListView.setAdapter(kqOrderAdapter);
 		TeaStuOrderAct.setListClassItemOnClickListener(this);
+		TeaStuOrderAct.setOnFilterChoseListStuListener(this);
 	}
 
 	@Override
@@ -72,6 +73,20 @@ public class TeaListStuKq extends Fragment implements onListClassListItemClick {
 		listHash = TeaStuOrderAct.listHash;
 		kqOrderAdapter.setStuList(listHash);
 		kqOrderAdapter.notifyDataSetChanged();
+		if (listHash.size() > 0) {
+			stuListView.setSelection(0);
+		}
+	}
+
+	@Override
+	public void filterChosen(int type) {
+		listHash = TeaStuOrderAct.listHash;
+		kqOrderAdapter.setStuList(listHash);
+		kqOrderAdapter.notifyDataSetChanged();
+		if (listHash.size() > 0) {
+			stuListView.setSelection(0);
+		}
+
 	}
 
 }

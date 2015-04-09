@@ -10,6 +10,7 @@ import java.util.List;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -29,11 +30,12 @@ import edu.sdjzu.adapter.KqOrderAdapter;
 import edu.sdjzu.kqsystem_teacher.LoginAct;
 import edu.sdjzu.kqsystem_teacher.TeaIndexAct;
 import edu.sdjzu.kqsystem_teacher.TeaStuOrderAct;
+import edu.sdjzu.kqsystem_teacher.TeaStuOrderAct.onFilterChosePicStuListener;
 import edu.sdjzu.kqsystem_teacher.TeaStuOrderAct.onPicClassListItemClick;
 import edu.sdjzu.model.KQresult;
 import edu.sdjzu.teatools.TeaTool;
 
-public class TeaPicStuKq extends Fragment implements onPicClassListItemClick {
+public class TeaPicStuKq extends Fragment implements onPicClassListItemClick, onFilterChosePicStuListener {
 	private List<HashMap<String, String>> listHash = new ArrayList<HashMap<String, String>>();
 	private TeaTool loginClass;
 	private ImageView picLeftBtn, picRightBtn;
@@ -73,11 +75,13 @@ public class TeaPicStuKq extends Fragment implements onPicClassListItemClick {
 		picStu = (ImageView) getView().findViewById(R.id.kq_pic_stu_pic);
 		picStu.setOnClickListener(stuPicOnClick);
 		TeaStuOrderAct.setPicClassItemOnClickListener(this);
+		TeaStuOrderAct.setOnFilterChoseListPicListener(this);
 		loginClass = new TeaTool(getActivity());
 		// listHash = loginClass.getStuList(TeaIndexAct.jno);
 		listHash = TeaStuOrderAct.listHash;
 		if (listHash.size() > 0) {
 			picIndex = 0;
+			updateStuPic(picIndex);
 			changeViewShow(picIndex);
 		}
 		picHandler = new Handler() {
@@ -143,24 +147,26 @@ public class TeaPicStuKq extends Fragment implements onPicClassListItemClick {
 			if (v.getId() == R.id.kq_spic_stu_left) {
 				if (picIndex > 0) {
 					--picIndex;
-					Bitmap bitMap = loginClass.getPhotoBySno(listHash.get(picIndex).get(
-							KqOrderAdapter.Constant.stuSnoKey));
-					picStu.setImageBitmap(bitMap);
+					updateStuPic(picIndex);
 					changeViewShow(picIndex);
 				}
 			} else if (v.getId() == R.id.kq_spic_stu_right) {
 				if (picIndex < listHash.size() - 1) {
 					isAllowPicNext = true;
 					++picIndex;
-					Bitmap bitMap = loginClass.getPhotoBySno(listHash.get(picIndex).get(
-							KqOrderAdapter.Constant.stuSnoKey));
-					picStu.setImageBitmap(bitMap);
+					updateStuPic(picIndex);
 					changeViewShow(picIndex);
 				}
 			}
 
 		}
 	};
+
+	private void updateStuPic(int index) {
+		BitmapDrawable bitMap = new BitmapDrawable(getActivity().getCacheDir() + "/" + LoginAct.userName + "/"
+				+ listHash.get(picIndex).get(KqOrderAdapter.Constant.stuSnoKey) + ".jpg");
+		picStu.setImageDrawable(bitMap);
+	}
 
 	/**
 	 * 更新学生考勤信息
@@ -195,6 +201,7 @@ public class TeaPicStuKq extends Fragment implements onPicClassListItemClick {
 		public void onClick(View v) {
 			if (picIndex < listHash.size() - 1) {
 				++picIndex;
+				updateStuPic(picIndex);
 				changeViewShow(picIndex);
 			}
 
@@ -251,8 +258,19 @@ public class TeaPicStuKq extends Fragment implements onPicClassListItemClick {
 		if (listHash.size() > 0) {
 			picIndex = 0;
 		}
+		updateStuPic(picIndex);
 		changeViewShow(picIndex);
 
+	}
+
+	@Override
+	public void filterChosen(int type) {
+		listHash = TeaStuOrderAct.listHash;
+		if (listHash.size() > 0) {
+			picIndex = 0;
+		}
+		updateStuPic(picIndex);
+		changeViewShow(picIndex);
 	}
 
 }

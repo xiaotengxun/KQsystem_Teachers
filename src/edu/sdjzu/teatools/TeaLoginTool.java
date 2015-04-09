@@ -11,7 +11,7 @@ import android.widget.Toast;
 public class TeaLoginTool {
 	private Context context;
 	private WebTool webTool;
-	private String tag="chen";
+	private String tag = "chen";
 
 	public TeaLoginTool(Context ctx) {
 		context = ctx;
@@ -29,13 +29,16 @@ public class TeaLoginTool {
 		webTool.QuerTeachTaskByTno(tno);
 		webTool.getClassStuByTno(tno);
 		webTool.getKQTBbyTno(tno);
-		webTool.getStuPicAllByTno(tno);
+		webTool.getStuPicZipByTno(tno);
+		// webTool.getStuPicAllByTno(tno);
+
 	}
+
 	/**
 	 * 其它用户登录时清除之前用户的所有信息
 	 */
-	public void clearCache(){
-		LocalSqlTool sqlLocal=new LocalSqlTool(context);
+	public void clearCache() {
+		LocalSqlTool sqlLocal = new LocalSqlTool(context);
 		sqlLocal.clearCache();
 	}
 
@@ -44,11 +47,12 @@ public class TeaLoginTool {
 		webTool.getAllJDTBbyTno(tno);
 		webTool.QuerTeachTaskByTno(tno);
 	}
+
 	/**
 	 * 向服务器提交考勤结果，自动到本地数据库里查找未提交的考勤结果
 	 */
 	public void TJKQresult(int jno) {
-			webTool.TJKQresult(jno);
-			
+		webTool.TJKQresult(jno);
+
 	}
 }

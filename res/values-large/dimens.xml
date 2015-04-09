@@ -4,5 +4,6 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="kq_choci_spinner_height">90dp</dimen>
-
+<dimen name="kq_look_title_size">26sp</dimen>
+<dimen name="kq_look_lsv_item_size">23sp</dimen>
 </resources>

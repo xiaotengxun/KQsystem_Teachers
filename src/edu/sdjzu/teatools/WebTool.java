@@ -1,9 +1,18 @@
 package edu.sdjzu.teatools;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipException;
+import java.util.zip.ZipFile;
 
+import org.apache.http.util.ByteArrayBuffer;
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.SoapFault;
 import org.ksoap2.serialization.MarshalBase64;
@@ -17,6 +26,8 @@ import android.accounts.NetworkErrorException;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.os.Environment;
+import android.util.Base64;
 import android.util.Log;
 import android.widget.Toast;
 import edu.sdjzu.attr.TeacherAttr;
@@ -252,7 +263,8 @@ public class WebTool {
 					t.setInMan(s.getProperty("InMan").toString());
 					t.setInTime(s.getProperty("InTime").toString());
 					lisTP.add(t);
-					Log.i("chen", "getAllJDTBbyTno TeachProgress.prgress time=" + t.getEndTime()+"  prgress.Cname="+t.getCourseName()+"   prgress.Jno="+t.getProgressNo());
+					Log.i("chen", "getAllJDTBbyTno TeachProgress.prgress time=" + t.getEndTime() + "  prgress.Cname="
+							+ t.getCourseName() + "   prgress.Jno=" + t.getProgressNo());
 				}
 			}
 		} catch (SoapFault e) {
@@ -549,11 +561,11 @@ public class WebTool {
 			context.sendBroadcast(intent);
 		} catch (XmlPullParserException e1) {
 			Log.i("chen", "" + e1);
-//			localSqlTool.upTeachProgressSave(jno);
+			// localSqlTool.upTeachProgressSave(jno);
 			context.sendBroadcast(new Intent(context.getString(R.string.network_error_action)));
 		} catch (IOException e) {
 			Log.i("chen", "" + e);
-			//			localSqlTool.upTeachProgressSave(jno);
+			// localSqlTool.upTeachProgressSave(jno);
 			context.sendBroadcast(new Intent(context.getString(R.string.network_error_action)));
 		}
 	}
@@ -619,7 +631,7 @@ public class WebTool {
 	 * @param jno
 	 */
 	public void UpdateProgress(int jno) {
-		Log.i("chen","updateProgress jno="+jno);
+		Log.i("chen", "updateProgress jno=" + jno);
 		// UpdateJDTBbyJno
 		List<Integer> jlist = new ArrayList<Integer>();
 		jlist.add(jno);
@@ -641,6 +653,107 @@ public class WebTool {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+	}
+
+	/*
+	 * 根据老师编号获得其上课学生的图片文件
+	 */
+	public void getStuPicZipByTno(String tno) {
+		METHOD_NAME = "getClassStuZipPicByTno";
+		SOAP_ACTION = NAMESPACE + METHOD_NAME;
+		SoapObject rpc = new SoapObject(NAMESPACE, METHOD_NAME);
+		rpc.addProperty("tno", tno);
+		// AndroidHttpTransport ht = new AndroidHttpTransport(URL);
+		ht.debug = true;
+		SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+		envelope.bodyOut = rpc;
+		envelope.dotNet = true;
+		(new MarshalBase64()).register(envelope);
+		envelope.setOutputSoapObject(rpc);
+		try {
+			ht.call(SOAP_ACTION, envelope);
+		} catch (XmlPullParserException e1) {
+		} catch (IOException e) {
+		}
+		try {
+			if (envelope.getResponse() != null) {
+				long size = envelope.getResponse().toString().length();
+				byte[] bytes = Base64.decode(envelope.getResponse().toString(), 0);
+				File file = new File(context.getCacheDir().getPath().toString(), tno + ".zip");
+				if (!file.exists()) {
+					boolean isSuccess = false;
+					FileOutputStream fileOutputStream = null;
+					try {
+						fileOutputStream = new FileOutputStream(file);
+						fileOutputStream.write(bytes);
+						isSuccess = true;
+					} catch (IOException e) {
+						file.delete();
+						e.printStackTrace();
+					} finally {// ////
+						try {
+							fileOutputStream.close();
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+					}// /////
+					if (isSuccess) {
+						try {
+							upZipFile(new File(context.getCacheDir().toString() +"/"+ tno + ".zip"), context.getCacheDir()
+									.toString() + "/" + tno);
+						} catch (ZipException e) {
+							e.printStackTrace();
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+					}
+				}
+				Log.i("chen", "zip size=" + size);
+			}
+		} catch (SoapFault e) {
+			Log.i("chen", "ZipException=" + e);
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * 解压缩一个文件
+	 * 
+	 * @param zipFile
+	 *            压缩文件
+	 * @param folderPath
+	 *            解压缩的目标目录
+	 * @throws IOException
+	 *             当解压缩过程出错时抛出
+	 */
+	private void upZipFile(File zipFile, String folderPath) throws ZipException, IOException {
+		File desDir = new File(folderPath);
+		if (!desDir.exists()) {
+			desDir.mkdirs();
+		}
+		ZipFile zf = new ZipFile(zipFile);
+		for (Enumeration<?> entries = zf.entries(); entries.hasMoreElements();) {
+			ZipEntry entry = ((ZipEntry) entries.nextElement());
+			InputStream in = zf.getInputStream(entry);
+			String str = folderPath + File.separator + entry.getName();
+			str = new String(str.getBytes("8859_1"), "GB2312");
+			File desFile = new File(str);
+			if (!desFile.exists()) {
+				File fileParentDir = desFile.getParentFile();
+				if (!fileParentDir.exists()) {
+					fileParentDir.mkdirs();
+				}
+				desFile.createNewFile();
+			}
+			OutputStream out = new FileOutputStream(desFile);
+			byte buffer[] = new byte[1024];
+			int realLength;
+			while ((realLength = in.read(buffer)) > 0) {
+				out.write(buffer, 0, realLength);
+			}
+			in.close();
+			out.close();
 		}
 	}
 

@@ -1,8 +1,16 @@
 package edu.sdjzu.teatools;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipException;
+import java.util.zip.ZipFile;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -12,6 +20,7 @@ import edu.sdjzu.attr.TeacherAttr;
 import edu.sdjzu.localtool.DatabaseManager;
 import edu.sdjzu.localtool.InternetStatus;
 import edu.sdjzu.localtool.LocalSqlTool;
+import edu.sdjzu.model.KQLookInfo;
 import edu.sdjzu.model.KQresult;
 import edu.sdjzu.model.Students;
 import edu.sdjzu.model.TeachProgress;
@@ -33,13 +42,13 @@ public class TeaTool {
 		boolean isSuccess = false;
 		InternetStatus is = new InternetStatus(context);
 		boolean isF = sp.getBoolean(TeacherAttr.isFirstLogin, true);
-		String lastUserName=sp.getString(TeacherAttr.loginUserName, null);
-		boolean isCacheClear=false;
+		String lastUserName = sp.getString(TeacherAttr.loginUserName, null);
+		boolean isCacheClear = false;
 		TeaLoginTool teaWebTool = new TeaLoginTool(context);
-		if(null != lastUserName && !lastUserName.endsWith(username)){
-			isCacheClear=true;
+		if (null != lastUserName && !lastUserName.endsWith(username)) {
+			isCacheClear = true;
 			teaWebTool.clearCache();
-			isF=false;
+			isF = false;
 		}
 		if (is.isNetworkConnected()) {
 			if (WebLoginSuccess(username, password)) {
@@ -130,8 +139,8 @@ public class TeaTool {
 	 *            是否是正常考勤
 	 * @return
 	 */
-	public List<HashMap<String, String>> getStuListByClass(String cla, int jno, boolean isNormalKq) {
-		return new LocalSqlTool(context).getStuListByClass(cla, jno, isNormalKq);
+	public List<HashMap<String, String>> getStuListByClass(String cla, int jno,int filterType) {
+		return new LocalSqlTool(context).getStuListByClass(cla, jno,filterType);
 	}
 
 	/**
@@ -218,7 +227,7 @@ public class TeaTool {
 	 * @return
 	 */
 
-	public List<HashMap<String, String>> getLookKq(String course, String cla, String week, String claTime) {
+	public List<KQLookInfo> getLookKq(String course, String cla, String week, String claTime) {
 		return new LocalSqlTool(context).getLookKq(course, cla, week, claTime);
 	}
 
@@ -271,6 +280,7 @@ public class TeaTool {
 	public void deleteLocalProgress(List<Integer> listJno) {
 		new LocalSqlTool(context).deleteLocalProgress(listJno);
 	}
+
 	/**
 	 * 根据进度号提交本地由于某些原因未能提交的考勤
 	 * 
@@ -285,14 +295,30 @@ public class TeaTool {
 			e.printStackTrace();
 		}
 	}
-	
-	
+
 	/**
 	 * 根据进度号判断当前进度是否已经提交
+	 * 
 	 * @param jno
 	 * @return
 	 */
-	public boolean isJnoSubmit(int jno){
+	public boolean isJnoSubmit(int jno) {
 		return new LocalSqlTool(context).isJnoSubmit(jno);
 	}
+
+	/*
+	 * 根据老师编号获得其上课学生的图片文件
+	 */
+	public void getStuPicZipByTno(String tno) {
+		try {
+			new WebTool(context).getStuPicZipByTno(tno);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+
+	
+	
 }

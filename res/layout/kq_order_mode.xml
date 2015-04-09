@@ -3,26 +3,57 @@
     android:layout_height="fill_parent"
     android:gravity="center_horizontal|center_vertical" >
 
-    <RadioGroup
-        android:id="@+id/kq_order_mode_group"
+    <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
+        android:layout_height="wrap_content" >
 
-        <RadioButton
-            android:id="@+id/kq_order_mode_list"
+        <RelativeLayout
+            android:id="@+id/rel"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:checked="true"
-            android:text="@string/tea_kq_order_mode_list"
-            android:textColor="#ffffff" />
+            android:gravity="center_vertical"
+            android:layout_height="fill_parent" >
 
-        <RadioButton
-            android:id="@+id/kq_order_mode_pic"
+            <RadioGroup
+                android:id="@+id/kq_order_mode_group"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <RadioButton
+                    android:id="@+id/kq_order_mode_list"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="@string/tea_kq_order_mode_list"
+                    android:textColor="#ffffff" />
+
+                <RadioButton
+                    android:id="@+id/kq_order_mode_pic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tea_kq_order_mode_pic"
+                    android:textColor="#ffffff" />
+            </RadioGroup>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/kq_order_filter"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/tea_kq_order_mode_pic"
-            android:textColor="#ffffff" />
-    </RadioGroup>
+            android:layout_height="fill_parent"
+            android:layout_marginLeft="20dp"
+            android:paddingLeft="3dp"
+            android:paddingRight="3dp"
+            android:layout_toRightOf="@+id/rel"
+            android:background="@drawable/press_background"
+            android:gravity="center_vertical"
+            android:clickable="true" >
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="25dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/kq_order_icon" />
+        </RelativeLayout>
+    </RelativeLayout>
 
 </RelativeLayout>
