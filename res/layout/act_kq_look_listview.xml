@@ -1,0 +1,22 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/kq_look_title"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="第1周   10102"
+        android:background="@color/kq_look_title_bg"
+        android:textSize="@dimen/kq_look_title_size" />
+
+    <edu.sdjzu.adapter.MyListView
+        android:id="@+id/kq_look_titile_lsv"
+        android:listSelector="@null"
+        android:clickable="false"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
+    </edu.sdjzu.adapter.MyListView>
+
+</LinearLayout>

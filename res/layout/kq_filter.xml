@@ -1,0 +1,114 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="#ffffff"
+    android:paddingBottom="30dp" >
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true" >
+
+        <RelativeLayout
+            android:id="@+id/rel_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="#18000000"
+            android:paddingBottom="5dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="5dp" >
+
+            <TextView
+                android:id="@+id/kq_order_filter_lable1"
+                android:layout_width="170dp"
+                android:layout_height="wrap_content"
+                android:text="缺勤默认排序："
+                android:textColor="@color/color_black"
+                android:textSize="22sp" />
+
+            <CheckBox
+                android:id="@+id/kq_order_filter_default"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50dp"
+                android:layout_toRightOf="@+id/kq_order_filter_lable1"
+                android:checked="true" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rel_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rel_1"
+            android:layout_marginTop="10dp"
+            android:background="#18000000"
+            android:paddingBottom="5dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="5dp" >
+
+            <TextView
+                android:id="@+id/kq_order_filter_lable2"
+                android:layout_width="170dp"
+                android:layout_height="wrap_content"
+                android:text="缺勤增序："
+                android:textColor="@color/color_black"
+                android:textSize="22sp" />
+
+            <CheckBox
+                android:id="@+id/kq_order_filter_up"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50dp"
+                android:layout_toRightOf="@+id/kq_order_filter_lable2"
+                android:checked="false" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rel_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rel_2"
+            android:layout_marginTop="10dp"
+            android:background="#18000000"
+            android:paddingBottom="5dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="5dp" >
+
+            <TextView
+                android:id="@+id/kq_order_filter_lable3"
+                android:layout_width="170dp"
+                android:layout_height="wrap_content"
+                android:text="缺勤降序："
+                android:textColor="@color/color_black"
+                android:textSize="22sp" />
+
+            <CheckBox
+                android:id="@+id/kq_order_filter_down"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50dp"
+                android:layout_toRightOf="@+id/kq_order_filter_lable3" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rel_3"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:checked="false" >
+
+            <Button
+                android:id="@+id/kq_order_filter_finish"
+                android:layout_width="140dp"
+                android:layout_height="wrap_content"
+                android:text="完成设置"
+                android:textSize="25sp" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+</RelativeLayout>
