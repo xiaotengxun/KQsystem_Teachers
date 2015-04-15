@@ -14,6 +14,7 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
@@ -184,6 +185,21 @@ public class TeaJDTBOption extends Fragment {
 			tjKQSuccessReceiver = null;
 		}
 		super.onDestroy();
-	};
+	}
+
+	@Override
+	public void onHiddenChanged(boolean hidden) {
+		Log.i("chen", "onHiddenChanged  hiden=" + hidden);
+		super.onHiddenChanged(hidden);
+	}
+
+	@Override
+	public void onResume() {
+		proList = tool.existSavedTProgress();
+		initJdtb();
+		jdtbAdapter.setData(listM);
+		jdtbAdapter.notifyDataSetChanged();
+		super.onResume();
+	}
 
 }

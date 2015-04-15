@@ -5,6 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.text.Html;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,9 +63,18 @@ public class KqLookAdapter extends BaseAdapter {
 			convertView.setTag(vh);
 		}
 		KQLookInfo info = list.get(position);
-		vh.title.setText(String.format(context.getString(R.string.tea_look_weekformat), info.getWeek()) + "      "
-				+ info.getClassTime());
-		KqLookListViewAdapter adapter=new KqLookListViewAdapter(info.getHashMap(), context);
+		String titleContent = String.format(context.getString(R.string.tea_look_weekformat), info.getWeek())
+				+ "       " + info.getClassTime() + "        " + info.getDescription();
+		if (!info.getDescription().equals("")) {
+			int bstart = titleContent.indexOf("未提交");
+			int bend = "未提交".length();
+			SpannableStringBuilder style = new SpannableStringBuilder(titleContent);
+			style.setSpan(new ForegroundColorSpan(Color.RED), bstart, bstart + bend, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+			vh.title.setText(style);
+		} else {
+			vh.title.setText(titleContent);
+		}
+		KqLookListViewAdapter adapter = new KqLookListViewAdapter(info.getHashMap(), context);
 		vh.listView.setAdapter(adapter);
 		return convertView;
 	}

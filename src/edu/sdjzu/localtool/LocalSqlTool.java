@@ -634,7 +634,6 @@ public class LocalSqlTool {
 		List<KQLookInfo> listKqLookInfo = new ArrayList<KQLookInfo>();
 		String sql = "";
 
-		db = DatabaseManager.getInstance(context);
 		if (!cla.equals(context.getString(R.string.kq__all))) {
 			sql = "select S.Sname as sname,S.Sno as sno,S.Sclass as sclass,"
 					+ "KQ.Kstate as state,J.Jweek as week,J.Jtime as classTime from TeachProgress as J,"
@@ -645,6 +644,26 @@ public class LocalSqlTool {
 					+ "KQ.Kstate as state,J.Jweek as week,J.Jtime as classTime from TeachProgress as J"
 					+ ",KQresult as KQ,Students as S where J.Cname=?" + " and J.Jno=KQ.Jno and KQ.Sno=S.Sno";
 		}
+		listKqLookInfo.addAll(getLookKqBySql(course, cla, week, claTime, sql, ""));
+		
+		if (!cla.equals(context.getString(R.string.kq__all))) {
+			sql = "select S.Sname as sname,S.Sno as sno,S.Sclass as sclass,"
+					+ "KQ.Kstate as state,J.Jweek as week,J.Jtime as classTime from TeachProgress as J,"
+					+ "KQresultLocal as KQ,Students as S where J.Cname=?"
+					+ " and J.Jno=KQ.Jno and KQ.Sno=S.Sno and S.Sclass='" + cla + "'";
+		} else {
+			sql = "select S.Sname as sname,S.Sno as sno,S.Sclass as sclass,"
+					+ "KQ.Kstate as state,J.Jweek as week,J.Jtime as classTime from TeachProgress as J"
+					+ ",KQresultLocal as KQ,Students as S where J.Cname=?" + " and J.Jno=KQ.Jno and KQ.Sno=S.Sno";
+		}
+		listKqLookInfo.addAll(getLookKqBySql(course, cla, week, claTime, sql, "δ�ύ")); 
+		return listKqLookInfo;
+	}
+
+	private List<KQLookInfo> getLookKqBySql(String course, String cla, String week, String claTime, String sql,
+			String description) {
+		db = DatabaseManager.getInstance(context);
+		List<KQLookInfo> listKqLookInfo = new ArrayList<KQLookInfo>();
 		List<HashMap<String, String>> ltHashMap = new ArrayList<HashMap<String, String>>();
 		Cursor cursor = db.Query(sql, new String[] { course });
 		List<String> weekCategory = new ArrayList<String>();
@@ -703,6 +722,7 @@ public class LocalSqlTool {
 					kqLookInfo.setChoseType(0);
 					kqLookInfo.setClassTime(nextClassTime);
 					kqLookInfo.setWeek(nextWeek);
+					kqLookInfo.setDescription(description);
 					int ncounts = ltHashMap.size();
 					for (int ii = 0; ii < ncounts; ii++) {
 						HashMap<String, String> h = ltHashMap.get(ii);
@@ -724,6 +744,7 @@ public class LocalSqlTool {
 				kqLookInfo.setChoseType(0);
 				kqLookInfo.setClassTime(nextClassTime);
 				kqLookInfo.setWeek(week);
+				kqLookInfo.setDescription(description);
 				int ncounts = ltHashMap.size();
 				for (int ii = 0; ii < ncounts; ii++) {
 					HashMap<String, String> h = ltHashMap.get(ii);
@@ -743,6 +764,7 @@ public class LocalSqlTool {
 				kqLookInfo.setChoseType(0);
 				kqLookInfo.setClassTime(claTime);
 				kqLookInfo.setWeek(nextWeek);
+				kqLookInfo.setDescription(description);
 				int ncounts = ltHashMap.size();
 				for (int ii = 0; ii < ncounts; ii++) {
 					HashMap<String, String> h = ltHashMap.get(ii);
@@ -760,6 +782,7 @@ public class LocalSqlTool {
 			kqLookInfo.setChoseType(0);
 			kqLookInfo.setClassTime(week);
 			kqLookInfo.setWeek(claTime);
+			kqLookInfo.setDescription(description);
 			int ncounts = ltHashMap.size();
 			for (int i = 0; i < ncounts; i++) {
 				HashMap<String, String> h = ltHashMap.get(i);
@@ -772,27 +795,6 @@ public class LocalSqlTool {
 				listKqLookInfo.add(kqLookInfo);
 			}
 		}
-
-		/*
-		 * Cursor cursor = null; db = DatabaseManager.getInstance(context); if
-		 * (cla.equals(context.getString(R.string.tea_class_all))) { sql =
-		 * TeacherAttrSql.SQL_SELECT_LOOK_LOCALKQ_ALL_CLASS; cursor =
-		 * db.Query(sql, new String[] { course, week, claTime }); } else {
-		 * cursor = db.Query(sql, new String[] { course, week, claTime, cla });
-		 * } while (cursor != null && cursor.moveToNext()) { HashMap<String,
-		 * String> h = new HashMap<String, String>();
-		 * h.put(KqOrderAdapter.Constant.stuNameKey,
-		 * cursor.getString(cursor.getColumnIndex("sname")));
-		 * h.put(KqOrderAdapter.Constant.stuSnoKey,
-		 * cursor.getString(cursor.getColumnIndex("sno")));
-		 * h.put(KqOrderAdapter.Constant.stuClassKey,
-		 * cursor.getString(cursor.getColumnIndex("sclass")));
-		 * h.put(KqOrderAdapter.Constant.stuClassOderStateKey,
-		 * cursor.getString(cursor.getColumnIndex("state"))); ltHashMap.add(h);
-		 * } cursor.close();
-		 */
-
-		// //db.closeDB();
 		return listKqLookInfo;
 	}
 
@@ -907,9 +909,9 @@ public class LocalSqlTool {
 		List<TeachProgress> list = new ArrayList<TeachProgress>();
 		if (jnoList.size() > 0) {
 			sql = "select * from TeachProgress where jno=" + jnoList.get(0);
-			Log.i("chen", "Saved jno ="+jnoList.get(0));
+			Log.i("chen", "Saved jno =" + jnoList.get(0));
 			for (int i = 1; i < jnoList.size(); i++) {
-				Log.i("chen", "Saved jno ="+jnoList.get(i));
+				Log.i("chen", "Saved jno =" + jnoList.get(i));
 				sql += " or jno=" + jnoList.get(i);
 			}
 			cursor = db.Query(sql, null);
@@ -934,15 +936,14 @@ public class LocalSqlTool {
 	 * @return
 	 */
 	public List<Students> getKQStuByJno(int jno) {
-		
-		String sqls="select * from KQresultLocal";
+
+		String sqls = "select * from KQresultLocal";
 		db = DatabaseManager.getInstance(context);
-		Cursor cur=db.Query(sqls, null);
-		Log.i("chen","getKQStuByJno===   kq.size="+cur.getCount());
+		Cursor cur = db.Query(sqls, null);
+		Log.i("chen", "getKQStuByJno===   kq.size=" + cur.getCount());
 		cur.close();
 		String sql = TeacherAttrSql.SQL_KQ_NOT_SUBMIT_STU;
-		Cursor cursor = db.Query(sql,
-				new String[] { String.valueOf(jno)});
+		Cursor cursor = db.Query(sql, new String[] { String.valueOf(jno) });
 		List<Students> listStu = new ArrayList<Students>();
 		while (cursor.moveToNext()) {
 			Students stu = new Students();

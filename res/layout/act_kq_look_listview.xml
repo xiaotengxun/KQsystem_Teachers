@@ -13,8 +13,7 @@
 
     <edu.sdjzu.adapter.MyListView
         android:id="@+id/kq_look_titile_lsv"
-        android:listSelector="@null"
-        android:clickable="false"
+        android:alwaysDrawnWithCache="true"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" >
     </edu.sdjzu.adapter.MyListView>

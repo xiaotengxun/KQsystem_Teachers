@@ -42,13 +42,13 @@ public class TeaTool {
 		boolean isSuccess = false;
 		InternetStatus is = new InternetStatus(context);
 		boolean isF = sp.getBoolean(TeacherAttr.isFirstLogin, true);
+		TeaLoginTool teaWebTool = new TeaLoginTool(context);
 		String lastUserName = sp.getString(TeacherAttr.loginUserName, null);
 		boolean isCacheClear = false;
-		TeaLoginTool teaWebTool = new TeaLoginTool(context);
-		if (null != lastUserName && !lastUserName.endsWith(username)) {
+		if (null != lastUserName && !lastUserName.equals(username)) {
 			isCacheClear = true;
 			teaWebTool.clearCache();
-			isF = false;
+			isF = true;
 		}
 		if (is.isNetworkConnected()) {
 			if (WebLoginSuccess(username, password)) {
